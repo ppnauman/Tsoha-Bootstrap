@@ -2,7 +2,7 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](ppnauman.users.cs.helsinki.fi/fishingLog)
+* [Linkki sovellukseeni](https://ppnauman.users.cs.helsinki.fi/fishingLog)
 * [Linkki dokumentaatiooni](https://www.github.com/ppnauman/Tsoha-Bootsrap)
 
 ## Työn aihe
