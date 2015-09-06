@@ -2,9 +2,11 @@
 
 Yleisiä linkkejä:
 
-* [Linkki sovellukseeni](https://www.cs.helsinki.fi)
-* [Linkki dokumentaatiooni](https://www.github.com)
+* [Linkki sovellukseeni](https://www.ppnauman.users.cs.helsinki.fi/fishingLog)
+* [Linkki dokumentaatiooni](https://www.github.com/ppnauman/Tsoha-Bootsrap)
 
 ## Työn aihe
 
-Laita tähän aihekuvaus tai [linkki valmiiseen aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html) 
+### Kalamiehen saalispäiväkirja 
+
+Saalispäiväkirja on yksinkertainen tietokantasovellus, jonka avulla kalastajat voivat pitää kirjaa niin saaliistaan kuin pyyntivälineistäänkin.
