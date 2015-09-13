@@ -7,7 +7,7 @@ Yleisiä linkkejä:
 * [rekisteröitymissivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/rekisteroityminen)
 * [saaliiden listausnäkymä](https://ppnauman.users.cs.helsinki.fi/fishingLog/listaaSaaliit)
 * [saaliin esittelynäkymä](https://ppnauman.users.cs.helsinki.fi/fishingLog/saalis)
-* [saaliin lisäys(/muokkaus)näkymä(https://ppnauman.users.cs.helsinki.fi/fishingLog/lisaaSaalis)
+* [saaliin lisäys(/muokkaus)näkymä](https://ppnauman.users.cs.helsinki.fi/fishingLog/lisaaSaalis)
 * [Linkki dokumentaatioon](https://github.com/ppnauman/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe
