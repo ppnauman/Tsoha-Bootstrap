@@ -36,7 +36,8 @@ CREATE TABLE Saalistieto(
     vedenLampo DECIMAL(3,1),
     pilvisyys VARCHAR(32),
     huomiot VARCHAR(300),
-    saaliskuva VARCHAR(300)
+    saaliskuva VARCHAR(300),
+    pyydys INTEGER REFERENCES Pyydys(pyydysID)
 );
 
 CREATE TABLE Pyydystaja(
