@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <div id="catch-top-button-section">
+        <ul class="list-inline">
+            <li><a class="btn btn-danger" role="button" href="#">Poista saalistieto</a></li>
+            <li><a class="btn btn-primary" role="button" href="#">Muokkaa saalistietoa</a></li>
+        </ul>
+    </div>
+    <div id="catch-data-section">
+        <h2>{{catch.kalalaji}} {{catch.paino}}kg / {{catch.pituus}}cm</h2>
+        <h3>{{catch.vesisto}}, {{catch.paikka}}</h3>
+        <ul>
+            <li>Pyyntipäivä: {{catch.pvm}}
+            <li>Kellonaika: {{catch.kellonaika}}
+            <li>Pyydystäjät: {{catch.etunimi}} {{catch.sukunimi}}
+            <li>Pyydystyyppi: {{catch.pyydystyyppi}}
+            <li>Pyydysmerkki/-koko: {{catch.pyydysmalli}} {{catch.pyydyskoko}}
+            <li>Veden lämpötila: {{catch.vedenLampo}} C
+            <li>Tuulen suunta: {{catch.tuulenSuunta}}
+            <li>Tuulen voimakkuus: {{catch.tuulenVoimakkuus}}    
+        </ul>
+        <p>{{catch.huomiot}}</p>
+    </div>  
+    <div id="catch-image-section">
+        <img class="img-responsive img-rounded" src="{{catch.saaliskuva}}" alt="Saaliskuva">
+    </div>
+{% endblock %}

@@ -16,11 +16,15 @@
       HelloWorldController::rekisteroityminen();
   });
   
-  $routes->get('/listaaSaaliit', function() {
-      HelloWorldController::listaaSaaliit();
+  $routes->get('/catchList', function() {
+      CatchController::index();
   });
   
-  $routes->get('/saalis', function() {
+  $routes->get('/catchList/:id', function($id) {
+      CatchController::show($id);
+  });
+  
+  $routes->get('/saalis', function() { 
       HelloWorldController::saalis();
   });
 

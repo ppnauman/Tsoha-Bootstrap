@@ -1,13 +1,23 @@
 # Tietokantasovelluksen esittelysivu
 
-Yleisiä linkkejä:
+Yleisiä linkkejä
 
-* [Linkki sovellukseeni](https://ppnauman.users.cs.helsinki.fi/fishingLog)
+* [Saaliiden listaussivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList)
+* [Saaliin esittelysivu id#1](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/1)
+* [Saaliin esittelysivu id#2](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/2)
+* [Saaliin lisäyssivu]
+
+
+Sivujen suunnitelmat
+
 * [kirjautumissivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/kirjautuminen)
 * [rekisteröitymissivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/rekisteroityminen)
 * [saaliiden listausnäkymä](https://ppnauman.users.cs.helsinki.fi/fishingLog/listaaSaaliit)
 * [saaliin esittelynäkymä](https://ppnauman.users.cs.helsinki.fi/fishingLog/saalis)
 * [saaliin lisäys(/muokkaus)näkymä](https://ppnauman.users.cs.helsinki.fi/fishingLog/lisaaSaalis)
+
+Dokumentaatio
+
 * [Linkki dokumentaatioon](https://github.com/ppnauman/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 ## Työn aihe

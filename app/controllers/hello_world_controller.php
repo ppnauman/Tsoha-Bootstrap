@@ -9,7 +9,10 @@
 
     public static function sandbox(){
       // Testaa koodiasi täällä
-      View::make('helloworld.html');
+      //$catch_1 = CatchModel::find(1);
+      $all = CatchModel::all();
+     
+      Kint::dump($all);
     }
     
     public static function kirjautuminen(){

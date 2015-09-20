@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 class="sub-header">Saalislistaus (<span>Matti Meikäläinen</span>)</h2>
+    <div>
+        <ul class="list-inline">
+            <li><button class="btn btn-primary" id="add-catch-button">Lisää saalistieto</button></li>
+            <li>
+                <span class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Suodata saalistietoja</span>
+                    <input class="form-control" type="text" id="search-catch-field" placeholder="Hakusana">
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped" id="catch-table">
+            <thead>
+                <tr>
+                    <th>Päiväys</th>
+                    <th>Kalastaja</th>
+                    <th>Vesistö</th>
+                    <th>Paikka</th>
+                    <th>Kalalaji</th>
+                    <th>Lkm</th>
+                    <th>Pituus</th>
+                    <th>Paino</th>
+                    <th>Pyydystyyppi</th>
+                    <th>Lisätiedot</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for catch in catches %}
+                    <tr>
+                        <td>{{catch.pvm}}</td>
+                        <td>{{catch.etunimi}} {{catch.sukunimi}}</td>
+                        <td>{{catch.vesisto}}</td>
+                        <td>{{catch.paikka}}</td>
+                        <td>{{catch.kalalaji}}</td>
+                        <td>{{catch.lkm}}</td>
+                        <td>{{catch.pituus}}</td>
+                        <td>{{catch.paino}}</td>
+                        <td>{{catch.pyydystyyppi}}</td>
+                        <td><a href="https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/{{catch.saalisID}}" class="btn btn-info btn-sm" type="button" target="_blank">Näytä saalis</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>    
+{% endblock %}

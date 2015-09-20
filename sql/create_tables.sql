@@ -26,6 +26,7 @@ CREATE TABLE Saalistieto(
     pvm DATE NOT NULL,
     kellonaika TIME,
     kalalaji VARCHAR(32) NOT NULL,
+    lkm INTEGER NOT NULL,
     pituus DECIMAL(4,1),
     paino DECIMAL(4,3),
     vesisto VARCHAR(32),
