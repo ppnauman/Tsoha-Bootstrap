@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+{% if(message) %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+{% endif %}
     <div id="catch-top-button-section">
         <ul class="list-inline">
             <li><a class="btn btn-danger" role="button" href="#">Poista saalistieto</a></li>

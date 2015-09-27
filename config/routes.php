@@ -24,6 +24,14 @@
       CatchController::show($id);
   });
   
+  $routes->get('/newCatch', function() {
+      CatchController::newCatch();
+  });
+  
+  $routes->post('/catch', function() {
+      CatchController::store();
+  });
+  
   $routes->get('/saalis', function() { 
       HelloWorldController::saalis();
   });

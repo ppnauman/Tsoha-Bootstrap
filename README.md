@@ -1,11 +1,13 @@
 # Tietokantasovelluksen esittelysivu
 
+Vkon 4 deadlinen vaatimukset luvassa vasta vko40 alkuviikosta. 
+
 Yleisiä linkkejä
 
 * [Saaliiden listaussivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList)
 * [Saaliin esittelysivu id#1](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/1)
 * [Saaliin esittelysivu id#2](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/2)
-* [Saaliin lisäyssivu]
+* [Saaliin lisäyssivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/newCatch)
 
 
 Sivujen suunnitelmat

@@ -9,7 +9,49 @@ class CatchModel extends BaseModel {
         parent::__construct($attributes);
     }
     
+    public function save() {
+        $pdo_connection = DB::connection();
+        $success = true;
+        //transaction begins
+        $pdo_connection->beginTransaction();
+
+        try {
+
+            $query = $pdo_connection->prepare("INSERT INTO saalistieto (pvm, kellonaika, kalalaji, lkm, pituus, paino,"
+                    . "vesisto, paikka, tuulenvoimakkuus, tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva, pyydys)"
+                    . " VALUES(:pvm, :aika, :laji, :lkm,"
+                    . ":pituus, :paino, :vesisto, :paikka, :tuulenVoima, :tuulenSuunta, :ilmanLampo,"
+                    . " :vedenLampo, :pilvisyys, :huomiot, :kuva, :pyydys) RETURNING saalisid");
+
+            $query->execute(array('pvm' => $this->pvm, 'aika' => $this->kellonaika, 'laji' => $this->kalalaji,
+                'lkm' => $this->lkm, 'pituus' => $this->pituus, 'paino' => $this->paino, 'vesisto' => $this->vesisto,
+                'paikka' => $this->paikka, 'tuulenVoima' => $this->tuulenVoimakkuus, 'tuulenSuunta' => $this->tuulenSuunta,
+                'ilmanLampo' => $this->ilmanLampo, 'vedenLampo' => $this->vedenLampo, 'pilvisyys' => $this->pilvisyys,
+                'huomiot' => $this->huomiot, 'kuva' => $this->saaliskuva, 'pyydys' => $this->pyydysID));
+
+            $resultRow = $query->fetch();
+            $this->saalisID = $resultRow['saalisid'];
+            
+
+            //NOTE:variable for testing only change to session USERNAME later
+            $username = 'kalakalle';
+
+            $query_2 = $pdo_connection->prepare("INSERT INTO pyydystaja VALUES(:kalastaja, :saalisid)");
+            $query_2 -> execute(array('kalastaja' => $username, 'saalisid' => $this->saalisID));
+        
+            
+        } catch (PDOException $e) {
+            $success = false;
+        }
+
+        if (!$success) {
+            $pdo_connection->rollBack();
+        } else {
+            $pdo_connection->commit();
+        }
+    }
     
+
     public static function all() {
         $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid, pvm, kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka, tuulenvoimakkuus,ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva, pyydysid, tyyppi, malli, koko, vari FROM kalastaja, saalistieto, pyydys, pyydystaja WHERE saalistieto.saalisid=pyydystaja.saalisid AND kalastaja.kayttajatunnus=pyydystaja.kalastaja AND saalistieto.pyydys=pyydys.pyydysid ORDER BY pvm DESC");
         $query->execute();
@@ -45,6 +87,7 @@ class CatchModel extends BaseModel {
         
         return $catches;
     }
+    
     
     
     public static function find($id) {
