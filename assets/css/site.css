@@ -15,10 +15,20 @@
     padding: 10px;
 }
 
+.add-catch-form {
+    margin: auto;
+    width: 75%;
+    padding: 10px;
+}
+
 .center{
     text-align:center;
 }
 
 .hidden{
     display:none;
+}
+
+.jumbotron{
+    border-radius: 25px;
 }

@@ -32,6 +32,14 @@
       CatchController::store();
   });
   
+  $routes->get('/login', function() {
+      UserController::login();
+  });
+  
+  $routes->post('/login', function() {
+      UserController::handle_login();
+  });
+  
   $routes->get('/saalis', function() { 
       HelloWorldController::saalis();
   });

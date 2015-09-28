@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron container container-fluid">
+    <form class="add-catch-form" method="post" action="{{base_path}}/catch">
+
+
+        <div class="col-md-12">  
+            <h1>Uusi saalistieto</h1>
+        </div>
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Aika ja paikka</legend>
+                <div class="form-group col-md-3">
+                    <label>Päivämäärä</label>
+                    <input type="date" class="form-control" name="date">
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label>Kellonaika</label>
+                    <input type="time" class="form-control" name="time">
+                </div>
+
+                <div class="col-md-6"></div>
+            </fieldset>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group col-md-6">
+                <label>Vesistö</label>
+                <input type="text"class="form-control" name="lake">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Paikka</label>
+                <input type="text" class="form-control" name="place">
+            </div>
+            <div class="form-group col-md-12">
+
+                <label>Muut kalastajat<br>
+                    <input type="checkbox" name="kalakaverit" value="usrname1" />kalakaveri1 <br />
+                    <input type="checkbox" name="kalakaverit" value="usrname2" />kalakaveri2<br />
+                    <input type="checkbox" name="kalakaverit" value="usrname3" />kalakaveri3<br />
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12">
+            <h3>Saaliskala</h3>
+            <div class="form-group col-md-9">
+                <label>Kalalaji</label>
+                <input type="text" class="form-control" name="species">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label>Lukumäärä</label>
+                <input type="number" class="form-control" name="count">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label>Saaliin pituus (cm)</label>
+                <input type="text" class="form-control" name="length">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label>Saaliin paino (kg)</label>
+                <input type="text" class="form-control" name="weight">
+            </div>
+            <div class="form-group col-md-6"></div>    
+        </div>
+
+        <div class="col-md-12">
+            <h3>Säätila</h3>
+            <div class="form-group col-md-3">
+                <label>Veden lämpötila (C)</label>
+                <input type="number" class="form-control" name="waterTemp">
+            </div>
+
+            <div class="form-group col-md-3">
+                <label>Ilman lämpötila (C)</label>
+                <input type="number" class="form-control" name="airTemp">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Tuulen voimakkuus</label>
+                <input type="text" class="form-control" name="windSpd">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Tuulen suunta</label>
+                <input type="text" class="form-control" name="windDir">
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Pilvisyys</label>
+                <input type="text" class="form-control" name="cloudiness">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <h3>Pyydystiedot</h3>
+            <div class="form-group col-md-12" id="traptypeGroup">
+                <label>Pyydyksen tyyppi</label>
+                <select  class="form-control" name="traptype">
+                    <option selected>Valitse pyydyksen tyyppi</option>
+                    {% for luretype in luretypes %}
+                    <option value="{{luretype}}">{{luretype}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group hidden col-md-12" id="trapmodelGroup">
+                <label>Pyydyksen merkki/malli</label>
+                <select class="form-control" name="trapmodel">
+                    <option value="default" selected>Valitse malli/merkki</option>
+                    <option class="trapmodel uistin" value="1">Nilsu 15cm papukaija</option>
+                    <option class="trapmodel verkko" value="2">Kivikangas 16mm</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <h3>Lisätiedot</h3>
+            <div class="form-group col-md-12">
+                <label>Saaliskuvan osoite (URL)</label>
+                <input type="url" class="form-control" name="picture">
+            </div>
+
+            <div class="form-group col-md-12">
+                <label>Huomioita</label>
+                <textarea class="form-control" rows="5" name="notes"></textarea>
+            </div>
+
+            <div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Talleta saalistieto</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}
