@@ -28,7 +28,7 @@
       CatchController::newCatch();
   });
   
-  $routes->post('/catch', function() {
+  $routes->post('/newCatch', function() {
       CatchController::store();
   });
   

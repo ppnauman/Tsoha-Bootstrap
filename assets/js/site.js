@@ -1,6 +1,6 @@
 $(document).ready(function(){
     
-  $("select[name='traptype']").change(function(){
+  $("select[name='trap_type']").change(function(){
       showTrapModels($(this).val());
   });
   
@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 function showTrapModels(trapType){
     $("#trapmodelGroup").removeClass("hidden");
-    $("select[name='trapmodel']").val('default');
+    $("select[name='trap_model']").val('default');
     $("option.trapmodel").hide();
     $("option."+trapType+"").show();   
 };

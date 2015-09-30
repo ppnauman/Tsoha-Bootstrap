@@ -10,9 +10,13 @@
     public static function sandbox(){
       // Testaa koodiasi täällä
       //$catch_1 = CatchModel::find(1);
-      $all = CatchModel::all();
-     
-      Kint::dump($all);
+      $catch = new CatchModel(array(
+          'kalalaji'=>"lahna",
+          'lkm' => '0',
+          'vedenLampo' => '-3',
+      ));
+      $errors = $catch->errors();
+      Kint::dump($errors);
     }
     
     public static function kirjautuminen(){

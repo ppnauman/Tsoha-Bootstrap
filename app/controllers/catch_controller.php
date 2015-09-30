@@ -17,33 +17,40 @@ class CatchController extends BaseController {
         //$luretypes = LureModel::uniqueTypes();
         //$lures = LureModel::all();
         $luretypes = array('uistin', 'verkko');
-        View::make('catches/newCatch.html', array('luretypes'=>$luretypes));
+        View::make('catch/newCatch.html', array('luretypes'=>$luretypes));
     }
     
+    
     public static function store() {
+        
         $params = $_POST;
-        $catch = new CatchModel(array(
-            'pvm' => $params['date'],
-            'kellonaika' => $params['time'],
-            'kalalaji' => $params['species'],
-            'lkm' => $params['count'],
-            'pituus' => $params['length'],
-            'paino' => $params['weight'],
-            'vesisto' => $params['lake'],
-            'paikka' => $params['place'],
-            'tuulenVoimakkuus' => $params['windSpd'],
-            'tuulenSuunta' => $params['windDir'],
-            'ilmanLampo' => $params['airTemp'],
-            'vedenLampo' => $params['waterTemp'],
-            'pilvisyys' => $params['cloudiness'],
-            'huomiot' => $params['notes'],
-            'saaliskuva' => $params['picture'],
-            'pyydysID' => $params['trapmodel'],
-        ));
+        $attributes = array(
+            'date' => $params['date'],
+            'time' => $params['time'],
+            'species' => $params['species'],
+            'count' => $params['count'],
+            'length' => $params['length'],
+            'weight' => $params['weight'],
+            'water_sys' => $params['water_sys'],
+            'location' => $params['location'],
+            'wind_speed' => $params['wind_speed'],
+            'wind_dir' => $params['wind_dir'],
+            'air_temp' => $params['air_temp'],
+            'water_temp' => $params['water_temp'],
+            'cloudiness' => $params['cloudiness'],
+            'notes' => $params['notes'],
+            'picture_url' => $params['picture_url'],
+            'trap_id' => $params['trap_model'],
+        );
+      
+        $catch = new CatchModel($attributes);
+        $errors = $catch->errors();
         
-        $catch->save();
-        Redirect::to('/catchList/' . $catch->saalisID, array('message' => 'Saalistieto lisättiin onnistuneesti!'));
-        
+        if (count($errors) === 0) {
+            $catch->save();
+            Redirect::to('/catchList/' . $catch->saalisID, array('message' => 'Saalistieto lisättiin onnistuneesti!'));    
+        } else {
+            View::make('catch/newCatch.html', array('errors'=>$errors, 'attributes'=>$attributes));
+        }
     }
-
 }

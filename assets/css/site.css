@@ -32,3 +32,11 @@
 .jumbotron{
     border-radius: 25px;
 }
+
+section.fieldset {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    border-top-style: solid; 
+    border-top-width: 1px;
+    border-top-color: darkgray;
+}
