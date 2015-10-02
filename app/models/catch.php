@@ -10,7 +10,7 @@ class CatchModel extends BaseModel {
     public function __construct($attributes) {
         
         parent::__construct($attributes);
-        $this->validators = array('validate_species', 'validate_count',
+        $this->validators = array('validate_time', 'validate_species', 'validate_count',
             'validate_length', 'validate_weight', 'validate_water_sys',
             'validate_location', 'validate_air_temp', 'validate_water_temp',
             'validate_notes', 'validate_picture_url');
@@ -155,12 +155,29 @@ class CatchModel extends BaseModel {
         return null;
     }
     
-    
     //input validators
+    public function validate_date() {
+        $errors = array();
+        $date_reg_exp = '/^[0-9]{4}-((0[1-9])|(1[0-2]))-(([0-2][0-9])|(3[0-1]))$/';
+        if(preg_match($date_reg_exp, $this->date)){
+            $errors[] = "Päivämäärä -kentän syötteen tulee olla päivämäärä muodossa pp.kk.vvvv";
+        }
+        return $errors;
+    }
+    
+    public function validate_time() {
+        $errors = array();
+        $time_reg_exp = "/^(([0-1][0-9])|([2][0-3])):[0-5][0-9]$/";
+        if(preg_match($time_reg_exp, $this->time) != 1) {
+            $errors[] = "Aika -kentän syötteen on oltava kellonaika muodossa hh:mm!";
+        }
+        return $errors;       
+    }
+    
     public function validate_species() {
         $errors = array();
-        if(is_null($this->species)) {
-            $errors[] = "Kalalajin nimi puuttuu!";
+        if($this->species=="") {
+            $errors[] = "Kalalaji -kenttä ei saa olla tyhjä!";
         }
         return $errors;
     }
@@ -169,11 +186,9 @@ class CatchModel extends BaseModel {
     public function validate_count() {
         $errors = array();
         if(!is_numeric($this->count)) {
-            $errors[] = "Lukumäärä -kentän syötteen on oltava lukuarvo!";
+            $errors[] = "Lukumäärä -kentän syötteenä on oltava lukuarvo!";
         }
-        if(is_null($this->count)) {
-            $errors[] = "Lukumäärä -kenttä ei saa olla tyhjä";
-        }
+       
         if($this->count == '0') {
             $errors[] = "Lukumäärä -kentän syöte ei saa olla nolla.";
         }

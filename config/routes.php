@@ -16,6 +16,14 @@
       HelloWorldController::rekisteroityminen();
   });
   
+  $routes->get('/registration', function() {
+      UserController::registration();
+  });
+  
+  $routes->post('/registration', function() {
+      UserController::store_user();
+  });
+  
   $routes->get('/catchList', function() {
       CatchController::index();
   });

@@ -1,26 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
-    <form class="register-form">
+<div class="jumbotron container container-fluid">
+    <form class="register-form" method="post" action="{{base_path}}/registration">
         <h2 class="register-form-heading">Rekisteröidy käyttäjäksi</h2>
+        {% if errors %}
+                <div class="errors"> 
+                        <div class="alert alert-danger">
+                            <ul>                            
+                                {% for error in errors %}
+                                    <li>{{error}}
+                                {% endfor %}                           
+                            </ul>      
+                        </div>
+                </div>
+        {% endif %}
         
-        <label for="username">Kayttäjätunnus</label>
-        <input type="text" id="username" class="form-control" required autofocus>
+        <div class="form-group">
+        <label>Kayttäjätunnus</label>
+        <input type="text" name="username" class="form-control" required autofocus>
+        </div>
         
-        <label for="firstname">Etunimi</label>
-        <input type="text" id="firstname" class="form-control" required>
+        <div class="form-group">
+        <label>Etunimi</label>
+        <input type="text" name="first_name" class="form-control" required>
+        </div>
         
-        <label for="surename">Sukunimi</label>
-        <input type="text" id="surename" class="form-control" required>
+        <div class="form-group">
+        <label>Sukunimi</label>
+        <input type="text" name="sure_name" class="form-control" required>
+        </div>
         
-        <label for="password-define">Salasana</label>
-        <input type="password" id="password-define" class="form-control" required>
+        <div class="form-group">
+        <label>Salasana</label>
+        <input type="password" name="password" class="form-control" required>
+        </div>
         
-        <label for="password-confirm">Salasana uudelleen</label>
-        <input type="password" id="password-confirm" class="form-control" required>
+        <div class="form-group">
+        <label>Salasanan varmistus</label>
+        <input type="password" name="password_confirm" class="form-control" required>
+        </div>
         
-        <label for="email">Sähköposti</label>
-        <input type="email" id="email" class="form-control" required>
+        <div class="form-group">
+        <label>Sähköposti</label>
+        <input type="email" name="email" class="form-control" required>
+        </div>
         
+        <div class="form-group">
+        <label>Kalakaverit</label>
+        <select multiple class="form-control" name="friends[]">
+            {% for username in users %}
+                <option>{{username}}</option>
+            {% endfor %}
+        </select>
+        </div>
+        
+        <div class="form-group">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Rekisteröidy</button>  
+        </div>
     </form>
+</div>
 {% endblock %}

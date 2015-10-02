@@ -27,5 +27,22 @@
       
       return $errors;
     }
+    
+    
+    public function str_length_between ($string, $min, $max) {
+        if(strlen($string) < $min || strlen($string) > $max) {
+            return false;
+        }
+        return true;
+    }
+    
+    public function valid_mail($mail_string) {
+        $errors = array();
+        $mail_regexp ="/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/";
+        if(preg_match($mail_regexp, $mail_string) != 1) {
+            return false;
+        }
+        return true;
+    }
 
   }

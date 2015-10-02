@@ -31,16 +31,16 @@
             <tbody>
                 {% for catch in catches %}
                     <tr>
-                        <td>{{catch.pvm}}</td>
-                        <td>{{catch.etunimi}} {{catch.sukunimi}}</td>
-                        <td>{{catch.vesisto}}</td>
-                        <td>{{catch.paikka}}</td>
-                        <td>{{catch.kalalaji}}</td>
-                        <td>{{catch.lkm}}</td>
-                        <td>{{catch.pituus}}</td>
-                        <td>{{catch.paino}}</td>
-                        <td>{{catch.pyydystyyppi}}</td>
-                        <td><a href="https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/{{catch.saalisID}}" class="btn btn-info btn-sm" type="button" target="_blank">Näytä saalis</a></td>
+                        <td>{{catch.date}}</td>
+                        <td>{{catch.first_name}} {{catch.sure_name}}</td>
+                        <td>{{catch.water_sys}}</td>
+                        <td>{{catch.location}}</td>
+                        <td>{{catch.species}}</td>
+                        <td>{{catch.count}}</td>
+                        <td>{{catch.length}}</td>
+                        <td>{{catch.weight}}</td>
+                        <td>{{catch.trap_type}}</td>
+                        <td><a href="{{base_path}}/catchList/{{catch.catch_id}}" class="btn btn-info btn-sm" type="button" target="_blank">Näytä saalis</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
