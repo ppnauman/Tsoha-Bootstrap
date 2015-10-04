@@ -2,7 +2,7 @@
 
 class User extends BaseModel {
     
-    public $username, $password, $password_confirm, $email, $first_name, $sure_name, $validators;
+    public $username, $password, $password_confirm, $email, $first_name, $sure_name, $friends, $validators;
     
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -31,22 +31,20 @@ class User extends BaseModel {
         }
     }
     
- 
     
-    
-    public static function friends($usr) {
+    public static function friend_of($usr) {
         $query = DB::connection()->prepare('SELECT DISTINCT kalastaja '
-                . 'FROM kalakaveri WHERE kalastaja = :usr');
+                . 'FROM kalakaveri WHERE kaveri = :usr');
         $query -> execute(array('usr' => $usr));
         
         $resultRows = $query ->fetchAll();
-        $friends = array();
+        $friend_of = array();
         
         foreach ($resultRows as $friend) {
-            $friends[] = $friend['kayttajatunnus'];
+            $friend_of[] = $friend['kalastaja'];
         }
         
-        return $friends;
+        return $friend_of;
     }
     
     public static function find($usr) {
@@ -79,6 +77,32 @@ class User extends BaseModel {
         return $usernames;
     }
 
+    
+    public function save() {
+        $pdo_conn = DB::connection();
+        
+        try{
+            $query = $pdo_conn->prepare("INSERT INTO kalastaja (kayttajatunnus, salasana,"
+                    . " etunimi, sukunimi, email) VALUES(:username, :password,"
+                    . " :first_name, :sure_name, :email)");
+            $query->execute(array('username'=>$this->username, 'password'=>$this->password,
+                'first_name'=>$this->first_name, 'sure_name'=>$this->sure_name, 
+                'email'=>$this->email));
+            $this->save_friends();
+            
+        } catch (PDOException $e) {
+            Kint::dump($e);
+        }
+    }
+    
+    public function save_friends() {
+        $query = DB::connection()->prepare("INSERT INTO kalakaveri VALUES(:username, :friend_name)");
+        foreach($this->friends as $friend) {
+            $query->execute(array('username'=>$this->username, 'friend_name'=>$friend));
+        }
+    }
+    
+    //form input validators
     public function validate_username() {
         $query = DB::connection()->prepare("SELECT kayttajatunnus FROM kalastaja"
                 ." WHERE kayttajatunnus = :new_username LIMIT 1");

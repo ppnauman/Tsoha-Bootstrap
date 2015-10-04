@@ -50,9 +50,16 @@ class CatchController extends BaseController {
         
         if (count($errors) === 0) {
             $catch->save();
-            Redirect::to('/catchList/' . $catch->saalisID, array('message' => 'Saalistieto lisättiin onnistuneesti!'));    
+            Redirect::to("/catchList/" . $catch->catch_id ."", array('message' => 'Saalistieto lisättiin onnistuneesti!'));    
         } else {
             View::make('catch/newCatch.html', array('errors'=>$errors, 'attributes'=>$attributes));
         }
+    }
+    
+    public static function destroy($id) {
+        $catch = new CatchModel(array('catch_id'=>$id));
+        $catch->destroy();
+        
+        Redirect::to('/catchList', array('message'=>"Saalistieto poistettiin onnistuneesti."));
     }
 }

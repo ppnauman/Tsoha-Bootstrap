@@ -15,22 +15,22 @@ class UserController extends BaseController {
             View::make('/user/login.html', array('error'=>"Väärä salasana tai käyttäjätunnus!"));
         } else {
             $_SESSION['user'] = $user->username;
-            $_SESSION['friends'] = User::friends($_SESSION['user']);
+            $_SESSION['friend_of'] = User::friend_of($_SESSION['user']);
             //Kint::trace();
             //Kint::dump($_SESSION['user']);
-            //Kint::dump($_SESSION['friends']);
+            //Kint::dump($_SESSION['friend_of']);
             Redirect::to('/catchList');
         }
         
     }
     
-    public function registration() {
+    public static function registration() {
         $users = User::all_usernames();
         View::make('/user/registration.html', array('users'=>$users));
     }
     
     
-    public function store_user() {
+    public static function store_user() {
         $user_params = $_POST;
         $attributes = array(
             'username' => $user_params['username'],
@@ -39,13 +39,15 @@ class UserController extends BaseController {
             'first_name' => $user_params['first_name'],
             'sure_name' => $user_params['sure_name'],
             'email' => $user_params['email'],
+            'friends' => $user_params['friends'],
         );
         
         $user = new User($attributes);
         $errors = $user->errors();
         
         if(count($errors) === 0) {
-            //save to database
+            $user->save();
+            Redirect::to('/login', array('msg'=>"Uusi käyttäjätili luotu tunnuksella".$user->username));
         } else {
             View::make('user/registration.html', array('attributes'=> $attributes, 'errors'=> $errors));
         }   

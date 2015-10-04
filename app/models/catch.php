@@ -45,8 +45,7 @@ class CatchModel extends BaseModel {
             $resultRow = $query->fetch();
             $this->catch_id = $resultRow['saalisid'];
             
-            //NOTE:variable #username for testing only, switch to session USERNAME later
-            $username = 'kalakalle';
+            $username = $_SESSION['user'];
 
             $query_2 = $pdo_connection->prepare("INSERT INTO pyydystaja VALUES("
                     . ":kalastaja, :saalisid)");
@@ -54,6 +53,7 @@ class CatchModel extends BaseModel {
                    
         } catch (PDOException $e) {
             $success = false;
+            //Kint::dump($e);
         }
         //end of transaction
         if (!$success) {
@@ -65,15 +65,16 @@ class CatchModel extends BaseModel {
     
 
     public static function all() {
-        
+        $user = $_SESSION['user'];
+       
         $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid,"
                 . " pvm, kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
                 . " tuulenvoimakkuus,ilmanlampo, vedenlampo, pilvisyys, huomiot,"
                 . " saaliskuva, pyydysid, tyyppi, malli, koko, vari FROM kalastaja,"
                 . " saalistieto, pyydys, pyydystaja WHERE saalistieto.saalisid=pyydystaja.saalisid"
                 . " AND kalastaja.kayttajatunnus=pyydystaja.kalastaja AND"
-                . " saalistieto.pyydys=pyydys.pyydysid ORDER BY pvm DESC");
-        $query->execute();
+                . " saalistieto.pyydys=pyydys.pyydysid AND (kalastaja.kayttajatunnus=:user OR (kalastaja.kayttajatunnus=ANY(SELECT DISTINCT kalastaja FROM kalakaveri WHERE kaveri=:usr))) ORDER BY pvm DESC");
+        $query->execute(array('user'=>$user, 'usr'=>$user));
         $resultRows = $query->fetchAll();
         $catches = array();
         
@@ -96,7 +97,7 @@ class CatchModel extends BaseModel {
                 'cloudiness'=>$catch['pilvisyys'],
                 'notes'=>$catch['huomiot'],
                 'picture_url'=>$catch['saaliskuva'],
-                'catch_id'=>$catch['pyydysid'],
+                'trap_id'=>$catch['pyydysid'],
                 'trap_type'=>$catch['tyyppi'],
                 'trap_model'=>$catch['malli'],
                 'trap_size'=>$catch['koko'],
@@ -112,7 +113,7 @@ class CatchModel extends BaseModel {
         
         $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid,"
                 . " pvm, kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
-                . " tuulenvoimakkuus, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva,"
+                . " tuulenvoimakkuus, tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva,"
                 . " pyydysid, tyyppi, malli, koko, vari FROM kalastaja, saalistieto,"
                 . " pyydys, pyydystaja WHERE saalistieto.saalisid=pyydystaja.saalisid AND"
                 . " kalastaja.kayttajatunnus=pyydystaja.kalastaja AND"
@@ -154,6 +155,11 @@ class CatchModel extends BaseModel {
         
         return null;
     }
+    
+    public function destroy() {
+     
+    }
+    
     
     //input validators
     public function validate_date() {

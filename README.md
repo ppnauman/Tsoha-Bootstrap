@@ -1,16 +1,22 @@
 # Tietokantasovelluksen esittelysivu
 
-Vkon 4 deadlinen vaatimukset luvassa vasta vko40 alkuviikosta. 
+Paljon on tehty mutta vielä puuttuukin aika monta juttua, tulossa vielä ainakin
+-saaliin muokkaus/poisto loppuun
+-pyydysten lisäys/poisto/listaus
+-saaliin lisäyksen validointeihin tarvii hieman tuunausta
+-uloskirjautuminen ja kirjautumattoman käyttäjän estot
+-dokumentointia + siistimistä
 
 Yleisiä linkkejä
 
+* [Kirjautuminen/rekisteröityminen(toimii ja ohjaa listaukseen/lisäykseen)](https://ppnauman.users.cs.helsinki.fi/fishingLog/login)
 * [Saaliiden listaussivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList)
 * [Saaliin esittelysivu id#1](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/1)
 * [Saaliin esittelysivu id#2](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/2)
 * [Saaliin lisäyssivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/newCatch)
 
 
-Sivujen suunnitelmat
+Sivujen alustavat suunnitelmat
 
 * [kirjautumissivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/kirjautuminen)
 * [rekisteröitymissivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/rekisteroityminen)

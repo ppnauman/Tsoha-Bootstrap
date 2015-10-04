@@ -12,21 +12,21 @@
         </ul>
     </div>
     <div id="catch-data-section">
-        <h2>{{catch.kalalaji}} {{catch.paino}}kg / {{catch.pituus}}cm</h2>
-        <h3>{{catch.vesisto}}, {{catch.paikka}}</h3>
+        <h2>{{catch.species}} {{catch.weight}}kg / {{catch.length}}cm</h2>
+        <h3>{{catch.water_sys}}, {{catch.location}}</h3>
         <ul>
-            <li>Pyyntipäivä: {{catch.pvm}}
-            <li>Kellonaika: {{catch.kellonaika}}
-            <li>Pyydystäjät: {{catch.etunimi}} {{catch.sukunimi}}
-            <li>Pyydystyyppi: {{catch.pyydystyyppi}}
-            <li>Pyydysmerkki/-koko: {{catch.pyydysmalli}} {{catch.pyydyskoko}}
-            <li>Veden lämpötila: {{catch.vedenLampo}} C
-            <li>Tuulen suunta: {{catch.tuulenSuunta}}
-            <li>Tuulen voimakkuus: {{catch.tuulenVoimakkuus}}    
+            <li>Pyyntipäivä: {{catch.date}}
+            <li>Kellonaika: {{catch.time}}
+            <li>Pyydystäjät: {{catch.first_name}} {{catch.sure_name}}
+            <li>Pyydystyyppi: {{catch.trap_type}}
+            <li>Pyydysmerkki/-koko: {{catch.trap_model}} {{catch.trap_size}}
+            <li>Veden lämpötila: {{catch.water_temp}} C
+            <li>Tuulen suunta: {{catch.wind_dir}}
+            <li>Tuulen voimakkuus: {{catch.wind_speed}}    
         </ul>
-        <p>{{catch.huomiot}}</p>
+        <p>{{catch.notes}}</p>
     </div>  
     <div id="catch-image-section">
-        <img class="img-responsive img-rounded" src="{{catch.saaliskuva}}" alt="Saaliskuva">
+        <img class="img-responsive img-rounded" src="{{catch.picture_url}}" alt="Saaliskuva">
     </div>
 {% endblock %}

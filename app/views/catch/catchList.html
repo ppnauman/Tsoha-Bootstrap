@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2 class="sub-header">Saalislistaus (<span>Matti Meikäläinen</span>)</h2>
+<div class="jumbotron container container-fluid">
+    <h2 class="sub-header">Saalislistaus ({{user_logged_in.first_name}} {{user_logged_in.sure_name}})</h2>
+    {% if message %}
+        <div class="alert alert-danger">
+            {{message}}
+        </div>
+    {% endif %}
     <div>
         <ul class="list-inline">
             <li><a href="{{base_path}}/newCatch" class="btn btn-primary" id="add-catch-button">Lisää saalistieto</a></li>
@@ -46,4 +52,5 @@
             </tbody>
         </table>
     </div>    
+</div>
 {% endblock %}
