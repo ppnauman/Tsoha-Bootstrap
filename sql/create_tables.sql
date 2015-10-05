@@ -18,7 +18,8 @@ CREATE TABLE Pyydys(
     tyyppi VARCHAR(32) NOT NULL,
     malli VARCHAR(32),
     koko VARCHAR(16),
-    vari VARCHAR(32)
+    vari VARCHAR(32),
+    kaytossa BOOLEAN,
 );
 
 CREATE TABLE Saalistieto(
@@ -28,7 +29,7 @@ CREATE TABLE Saalistieto(
     kalalaji VARCHAR(32) NOT NULL,
     lkm INTEGER NOT NULL,
     pituus DECIMAL(4,1),
-    paino DECIMAL(4,3),
+    paino DECIMAL(6,3),
     vesisto VARCHAR(32),
     paikka VARCHAR(64),
     tuulenVoimakkuus VARCHAR(32),
