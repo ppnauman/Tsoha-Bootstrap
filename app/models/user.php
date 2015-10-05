@@ -40,8 +40,8 @@ class User extends BaseModel {
         $resultRows = $query ->fetchAll();
         $friend_of = array();
         
-        foreach ($resultRows as $friend) {
-            $friend_of[] = $friend['kalastaja'];
+        foreach ($resultRows as $row) {
+            $friend_of[] = $row['kalastaja'];
         }
         
         return $friend_of;

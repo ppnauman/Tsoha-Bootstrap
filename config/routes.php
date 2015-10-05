@@ -48,6 +48,10 @@
       UserController::handle_login();
   });
   
+  $routes->post('/catch/:id/destroy', function($id) {
+      CatchController::destroy($id);
+  });
+  
   $routes->get('/saalis', function() { 
       HelloWorldController::saalis();
   });

@@ -7,8 +7,11 @@
 {% endif %}
     <div id="catch-top-button-section">
         <ul class="list-inline">
-            <li><a class="btn btn-danger" role="button" href="#">Poista saalistieto</a></li>
-            <li><a class="btn btn-primary" role="button" href="#">Muokkaa saalistietoa</a></li>
+            <li>
+                <form method="post" action="{{base_path}}/catch/{{catch.catch_id}}/destroy">
+                    <button class="btn btn-danger" type="submit">Poista saalistieto</button>
+                </form>
+            <li><a class="btn btn-primary" role="button" href="#">Muokkaa saalistietoa</a>
         </ul>
     </div>
     <div id="catch-data-section">

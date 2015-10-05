@@ -157,7 +157,41 @@ class CatchModel extends BaseModel {
     }
     
     public function destroy() {
-     
+        
+        //check how many usernames are connected to this particular catch_id..
+        $query = DB::connection()->prepare("SELECT COUNT(DISTINCT kalastaja) AS"
+                . " catcher_count FROM pyydystaja WHERE saalisid = $this->catch_id");
+        $query->execute();
+        $resultRow = $query->fetch();
+        $catcher_count = $resultRow['catcher_count'];
+        
+        $conn = DB::connection();
+        $conn ->beginTransaction();
+        
+            $success = true;
+            
+            try {
+                //delete foreign keys related to logged in user in pyydystaja
+                $query = $conn->prepare("DELETE FROM pyydystaja WHERE kalastaja=:user"
+                        . " AND saalisid=:catch_id");
+                $query->execute(array('user' => $_SESSION['user'], 'catch_id' => $this->catch_id));
+
+                //..when only one username/catch_id > remove catch data from saalistieto
+                if ($catcher_count == 1) {
+                    $query_2 = $conn->prepare("DELETE FROM saalistieto WHERE saalisid=$this->catch_id");
+                    $query_2->execute();
+                }
+
+            } catch (PDOException $e) {
+                $success = false;
+                //Kint::dump($e);
+            }
+            
+            if(!$success) {
+                $conn->rollBack();
+            } else {
+                $conn->commit();
+            }
     }
     
     
