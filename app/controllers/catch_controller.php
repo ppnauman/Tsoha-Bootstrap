@@ -19,7 +19,7 @@ class CatchController extends BaseController {
         //$luretypes = LureModel::uniqueTypes();
         //$lures = LureModel::all();
         $luretypes = array('uistin', 'verkko');
-        View::make('catch/newCatch.html', array('luretypes'=>$luretypes));
+        View::make('catch/newCatch.html', array('luretypes'=>$luretypes, 'friend_of'=>$_SESSION['friend_of']));
     }
     
     
@@ -43,7 +43,10 @@ class CatchController extends BaseController {
             'notes' => $params['notes'],
             'picture_url' => $params['picture_url'],
             'trap_id' => $params['trap_model'],
+            'friends' => $params['friends[]'],
         );
+        
+        //Kint::dump($attributes);
       
         $catch = new CatchModel($attributes);
         $errors = $catch->errors();

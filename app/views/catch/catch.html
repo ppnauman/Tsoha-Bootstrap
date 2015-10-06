@@ -14,7 +14,8 @@
             <li><a class="btn btn-primary" role="button" href="#">Muokkaa saalistietoa</a>
         </ul>
     </div>
-    <div id="catch-data-section">
+    <div class="row">
+        <div class="col-sm-6">
         <h2>{{catch.species}} {{catch.weight}}kg / {{catch.length}}cm</h2>
         <h3>{{catch.water_sys}}, {{catch.location}}</h3>
         <ul>
@@ -27,9 +28,12 @@
             <li>Tuulen suunta: {{catch.wind_dir}}
             <li>Tuulen voimakkuus: {{catch.wind_speed}}    
         </ul>
+        </div>
+        <div class="col-sm-6">
+             <img class="img-responsive img-rounded" src="{{catch.picture_url}}" alt="Saaliskuva puuttuu">
+        </div>
+    </div>
+    <div class="row">
         <p>{{catch.notes}}</p>
-    </div>  
-    <div id="catch-image-section">
-        <img class="img-responsive img-rounded" src="{{catch.picture_url}}" alt="Saaliskuva">
     </div>
 {% endblock %}

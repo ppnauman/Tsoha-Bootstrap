@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron container container-fluid">
+
     <form class="register-form" method="post" action="{{base_path}}/registration">
         <h2 class="register-form-heading">Rekisteröidy käyttäjäksi</h2>
         {% if errors %}
@@ -58,5 +58,5 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Rekisteröidy</button>  
         </div>
     </form>
-</div>
+
 {% endblock %}

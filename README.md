@@ -3,7 +3,6 @@
 Paljon on tehty mutta vielä puuttuukin aika monta juttua, tulossa vielä ainakin
 -saaliin muokkaus
 -pyydysten lisäys/poisto/listaus
--saaliin lisäyksen validointeihin tarvii hieman tuunausta
 -uloskirjautuminen ja kirjautumattoman käyttäjän estot
 -dokumentointia + siistimistä
 

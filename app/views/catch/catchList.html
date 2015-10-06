@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron container container-fluid">
+
     <h2 class="sub-header">Saalislistaus ({{user_logged_in.first_name}} {{user_logged_in.sure_name}})</h2>
     {% if message %}
         <div class="alert alert-danger">
@@ -9,16 +9,16 @@
     {% endif %}
     <div>
         <ul class="list-inline">
-            <li><a href="{{base_path}}/newCatch" class="btn btn-primary" id="add-catch-button">Lisää saalistieto</a></li>
-            <li>
-                <span class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">Suodata saalistietoja</span>
-                    <input class="form-control" type="text" id="search-catch-field" placeholder="Hakusana">
-                </span>
-            </li>
+            <li><a href="{{base_path}}/newCatch" class="btn btn-primary">Lisää saalistieto</a>
+            <li><a href="{{base_path}}/trapList" class="btn btn-danger">Pyydykset</a>
         </ul>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Suodata saalistietoja</span>
+            <input class="form-control" type="text" id="search" placeholder="Hakusana" aria-describedby="basic-addon1">
+        </div>
     </div>
-    <div class="table-responsive">
+    <section id="catch_list">
+    <div class="table-responsivge">
         <table class="table table-striped" id="catch-table">
             <thead>
                 <tr>
@@ -46,11 +46,12 @@
                         <td>{{catch.length}}</td>
                         <td>{{catch.weight}}</td>
                         <td>{{catch.trap_type}}</td>
-                        <td><a href="{{base_path}}/catchList/{{catch.catch_id}}" class="btn btn-info btn-sm" type="button" target="_blank">Näytä saalis</a></td>
+                        <td><a href="{{base_path}}/catchList/{{catch.catch_id}}" class="btn btn-danger btn-sm" type="button" target="_blank">Näytä saalis</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>    
-</div>
+    </section>
+
 {% endblock %}

@@ -1,7 +1,21 @@
+img {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+}
+
 #main-container{
   max-width: 1200px;
   padding: 10px 25px;
   margin: 0px auto;
+}
+
+#catch_list {
+    padding-top:3em;
+}
+
+.jumbotron{
+    background-color: #B6B8FC;
 }
 
 .navbar .container-fluid{

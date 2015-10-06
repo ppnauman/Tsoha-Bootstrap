@@ -4,13 +4,13 @@ class CatchModel extends BaseModel {
     public $first_name, $sure_name, $catch_id, $date, $time, $species, $count,
             $length, $weight, $water_sys, $location, $wind_speed, $wind_dir, $air_temp,
             $water_temp, $cloudiness, $notes, $picture_url, $trap_id, $trap_type,
-            $trap_model, $trap_size, $trap_color, $validators;
+            $trap_model, $trap_size, $trap_color, $friends, $validators;
 
     
     public function __construct($attributes) {
         
         parent::__construct($attributes);
-        $this->validators = array('validate_time', 'validate_species', 'validate_count',
+        $this->validators = array('validate_date', 'validate_time', 'validate_species', 'validate_count',
             'validate_length', 'validate_weight', 'validate_water_sys',
             'validate_location', 'validate_air_temp', 'validate_water_temp',
             'validate_notes', 'validate_picture_url');
@@ -199,7 +199,7 @@ class CatchModel extends BaseModel {
     public function validate_date() {
         $errors = array();
         $date_reg_exp = '/^[0-9]{4}-((0[1-9])|(1[0-2]))-(([0-2][0-9])|(3[0-1]))$/';
-        if(preg_match($date_reg_exp, $this->date)){
+        if(preg_match($date_reg_exp, $this->date) != 1){
             $errors[] = "Päivämäärä -kentän syötteen tulee olla päivämäärä muodossa pp.kk.vvvv";
         }
         return $errors;
@@ -208,7 +208,7 @@ class CatchModel extends BaseModel {
     public function validate_time() {
         $errors = array();
         $time_reg_exp = "/^(([0-1][0-9])|([2][0-3])):[0-5][0-9]$/";
-        if(preg_match($time_reg_exp, $this->time) != 1) {
+        if((preg_match($time_reg_exp, $this->time) != 1) && ($this->time != "")) {
             $errors[] = "Aika -kentän syötteen on oltava kellonaika muodossa hh:mm!";
         }
         return $errors;       
@@ -216,8 +216,8 @@ class CatchModel extends BaseModel {
     
     public function validate_species() {
         $errors = array();
-        if($this->species=="") {
-            $errors[] = "Kalalaji -kenttä ei saa olla tyhjä!";
+        if(!$this->str_length_between($this->species, 1, 32)) {
+            $errors[] = "Kalalaji -kentän syötteen pituus tulee olla 1-32 merkkiä.";
         }
         return $errors;
     }
