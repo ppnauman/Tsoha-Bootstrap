@@ -48,8 +48,20 @@
       UserController::handle_login();
   });
   
+  $routes->get('/catchUpdate/:id', function($id) {
+      CatchController::viewUpdate($id);
+  });
+  
+  $routes->post('/catchUpdate/:id', function($id) {
+      CatchController::update($id);
+  });
+  
   $routes->post('/catch/:id/destroy', function($id) {
       CatchController::destroy($id);
+  });
+  
+  $routes->post('/logout', function() {
+      UserController::logout();
   });
   
   $routes->get('/saalis', function() { 

@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
            
-    <form class="add-catch-form" method="post" action="{{base_path}}/newCatch">       
+    <form class="add-catch-form" method="post" {% block action %} action="{{base_path}}/newCatch" {% endblock %}>       
         <section>
-            <h1>Uusi saalistieto</h1>
+           <h1>{% block title %}Uusi saalistieto{% endblock %}</h1>
         </section>
 
         {% if(errors) %}
@@ -29,7 +29,7 @@
                 </div>   
                 <div class="col-sm-9 form-group">
                     <label>Vesistö</label>
-                    <input type="text"class="form-control" name="water_sys" maxlength="32" value="{{attributes.water_sys}}">
+                    <input type="text" class="form-control" name="water_sys" maxlength="32" value="{{attributes.water_sys}}">
                 </div>  
             </div>
 
@@ -38,18 +38,21 @@
                     <label>Kellonaika</label>
                     <input type="time" class="form-control" name="time" value="{{attributes.time}}">              
                 </div>
-                <div class="col-sm-9 form-group">u   
+                <div class="col-sm-9 form-group">  
                     <label>Paikka</label>
                     <input type="text" class="form-control" name="location" maxlength="64" value="{{attributes.location}}">
                 </div>
             </div>        
 
             <div class="row">
-                <div class="col-sm-12 form-group">
-                    {% for name in friend_of %} 
-                        <label>Saaliin muut kalastajat</label></br>
-                        <input type="checkbox" name="friends[]" value="{{name}}"/>{{name}}</br>              
-                    {% endfor %}
+                <div class="col-sm-12 form-group">               
+                    <label>Saaliin muut kalastajat</label></br>
+                        {% for name in friend_of %}    
+                            {% block checkbox %}
+                                <input type="checkbox" name="friends[]" value="{{name}}"
+                                    {% if name in attributes.friends %} checked{% endif %}/>{{name}}</br>  
+                            {% endblock %}
+                        {% endfor %}
                 </div>
             </div>
         </section>
@@ -74,11 +77,11 @@
             <div class="row">
                 <div class="col-sm-3 form-group">
                     <label>Saaliin pituus (cm)</label>
-                    <input type="number" class="form-control" name="length" value="{{attributes.length}}"> 
+                    <input type="text" class="form-control" name="length" value="{{attributes.length}}"> 
                 </div>
                 <div class="col-sm-3 form-group">
                     <label>Saaliin paino (kg)</label>
-                    <input type="number" class="form-control" name="weight" value="{{attributes.weight}}">
+                    <input type="text" class="form-control" name="weight" value="{{attributes.weight}}">
                 </div>
                 <!--empty space filler column-->
                 <div class="col-sm-6"></div>
@@ -91,12 +94,12 @@
             <div class="row">
                 <div class="col-sm-3 form-group">
                     <label>Veden lämpötila (C)</label>
-                    <input type="number" class="form-control" name="water_temp" value="{{attributes.water_temp}}">
+                    <input type="text" class="form-control" name="water_temp" value="{{attributes.water_temp}}">
                 </div>
 
                 <div class="col-sm-3 form-group">
                     <label>Ilman lämpötila (C)</label>
-                    <input type="number" class="form-control" name="air_temp" value="{{attributes.air_temp}}">
+                    <input type="text" class="form-control" name="air_temp" value="{{attributes.air_temp}}">
                 </div>
 
                 <div class="col-sm-3 form-group">
@@ -151,8 +154,8 @@
                     <label>Pyydyksen tyyppi</label>
                     <select  class="form-control" name="trap_type">
                         <option selected>Valitse pyydyksen tyyppi</option>
-                        {% for luretype in luretypes %}
-                        <option>{{luretype}}</option>
+                        {% for trap_type in trap_types %}
+                        <option>{{trap_type}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -163,8 +166,9 @@
                     <label>Pyydysmalli</label>
                     <select class="form-control" name="trap_model">
                         <option value="default" selected>Valitse malli/merkki</option>
-                        <option class="trapmodel uistin" value="1">Nilsu 15cm papukaija</option>
-                        <option class="trapmodel verkko" value="2">Kivikangas 16mm</option>
+                        {% for trap in traps %}
+                            <option class="trapmodel {{trap.trap_type}}" value="{{trap.trap_id}}">{{trap.trap_model}} {{trap.trap_size}} {{trap.trap_color}}</option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>

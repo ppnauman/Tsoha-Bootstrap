@@ -16,6 +16,19 @@ class CatchModel extends BaseModel {
             'validate_notes', 'validate_picture_url');
     }
     
+    public static function catchers($id) {
+        $catchers = array();
+        $query = DB::connection()->prepare("SELECT kalastaja FROM pyydystaja WHERE saalisid=:id");
+        $query->execute(array('id'=>$id));
+        $resultRows = $query->fetchAll();
+        
+        foreach($resultRows as $row) {
+            $catchers[] = $row['kalastaja'];
+        }
+        
+        return $catchers;
+    }
+    
     
     public function save() {
         
@@ -53,7 +66,8 @@ class CatchModel extends BaseModel {
                    
         } catch (PDOException $e) {
             $success = false;
-            //Kint::dump($e);
+            Kint::dump($e);
+            Kint::trace();
         }
         //end of transaction
         if (!$success) {
@@ -63,12 +77,45 @@ class CatchModel extends BaseModel {
         }
     }
     
+    
+    public function update() {
+        $pdo_conn = DB::connection(); 
+        $success = true;
+        $pdo_conn->beginTransaction();
+            try {
+                $query = $pdo_conn->prepare("UPDATE saalistieto SET pvm=:date, kellonaika=:time,"
+                        . " kalalaji=:species, lkm=:count, pituus=:length, paino=:weight, vesisto=:water_sys,"
+                        . " paikka=:location, tuulenvoimakkuus=:wind_speed, tuulensuunta=:wind_dir,"
+                        . " ilmanlampo=:air_temp, vedenlampo=:water_temp, pilvisyys=:cloudiness,"
+                        . " huomiot=:notes, saaliskuva=:picture_url, pyydys=:trap_id WHERE saalisid=:catch_id");
+                $query->execute(array('date'=>$this->date, 'time'=>$this->time, 'species'=>$this->species, 
+                    'count'=>$this->count, 'length'=>$this->length, 'weight'=>$this->weight, 'water_sys'=>$this->water_sys, 
+                    'location'=>$this->location, 'wind_dir'=>$this->wind_dir, 'wind_speed'=>$this->wind_speed, 
+                    'air_temp'=>$this->air_temp, 'water_temp'=>$this->water_temp, 'cloudiness'=>$this->cloudiness, 
+                    'notes'=>$this->notes, 'picture_url'=>$this->picture_url, 'trap_id'=>$this->trap_id, 'catch_id'=>$this->catch_id));
+                $query_2 = DB::connection()->prepare("INSERT INTO pyydystaja VALUES(:username, :catch_id)");
+
+                foreach($this->friends as $friend) {
+                    $query_2->execute(array('username'=>$friend, 'catch_id'=>$this->catch_id));
+                }
+
+            } catch (PDOException $e) {
+                $success = false;
+                Kint::dump($e);
+            }
+        
+        if(!$success){
+            $pdo_conn->rollBack();
+        } else {
+            $pdo_conn->commit();
+        }
+    }
 
     public static function all() {
         $user = $_SESSION['user'];
        
         $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid,"
-                . " pvm, kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
+                . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
                 . " tuulenvoimakkuus,ilmanlampo, vedenlampo, pilvisyys, huomiot,"
                 . " saaliskuva, pyydysid, tyyppi, malli, koko, vari FROM kalastaja,"
                 . " saalistieto, pyydys, pyydystaja WHERE saalistieto.saalisid=pyydystaja.saalisid"
@@ -112,7 +159,7 @@ class CatchModel extends BaseModel {
     public static function find($id) {
         
         $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid,"
-                . " pvm, kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
+                . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
                 . " tuulenvoimakkuus, tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva,"
                 . " pyydysid, tyyppi, malli, koko, vari FROM kalastaja, saalistieto,"
                 . " pyydys, pyydystaja WHERE saalistieto.saalisid=pyydystaja.saalisid AND"

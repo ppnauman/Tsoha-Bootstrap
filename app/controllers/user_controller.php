@@ -38,19 +38,27 @@ class UserController extends BaseController {
             'password_confirm' => $user_params['password_confirm'],
             'first_name' => $user_params['first_name'],
             'sure_name' => $user_params['sure_name'],
-            'email' => $user_params['email'],
-            'friends' => $user_params['friends'],
+            'email' => $user_params['email']
         );
+        
+        if(isset($params['friends'])){
+            $attributes['friends'] = $params['friends'];
+        }
         
         $user = new User($attributes);
         $errors = $user->errors();
         
         if(count($errors) === 0) {
             $user->save();
-            Redirect::to('/login', array('msg'=>"Uusi käyttäjätili luotu tunnuksella".$user->username));
+            Redirect::to('/login', array('msg'=>"Uusi käyttäjätili luotu tunnuksella ".$user->username));
         } else {
             View::make('user/registration.html', array('attributes'=> $attributes, 'errors'=> $errors));
         }   
+    }
+    
+    public static function logout() {
+        $_SESSION['user'] = null;
+        Redirect::to('/login', array('msg'=>"Olet nyt kirjautunut ulos!"));
     }
 }
 

@@ -11,7 +11,10 @@
                 <form method="post" action="{{base_path}}/catch/{{catch.catch_id}}/destroy">
                     <button class="btn btn-danger" type="submit">Poista saalistieto</button>
                 </form>
-            <li><a class="btn btn-primary" role="button" href="#">Muokkaa saalistietoa</a>
+            <li>
+                <form method="get" action="{{base_path}}/catchUpdate/{{catch.catch_id}}">
+                    <button class="btn btn-info" type="submit">Muokkaa saalistietoa</button>
+                </form>
         </ul>
     </div>
     <div class="row">

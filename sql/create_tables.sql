@@ -19,7 +19,7 @@ CREATE TABLE Pyydys(
     malli VARCHAR(32),
     koko VARCHAR(16),
     vari VARCHAR(32),
-    kaytossa BOOLEAN,
+    kaytossa BOOLEAN
 );
 
 CREATE TABLE Saalistieto(
@@ -28,14 +28,14 @@ CREATE TABLE Saalistieto(
     kellonaika TIME,
     kalalaji VARCHAR(32) NOT NULL,
     lkm INTEGER NOT NULL,
-    pituus DECIMAL(4,1),
-    paino DECIMAL(6,3),
+    pituus VARCHAR(5),
+    paino VARCHAR(5),
     vesisto VARCHAR(32),
     paikka VARCHAR(64),
     tuulenVoimakkuus VARCHAR(32),
     tuulenSuunta VARCHAR(32),
-    ilmanLampo DECIMAL(3,1),
-    vedenLampo DECIMAL(3,1),
+    ilmanLampo VARCHAR(4),
+    vedenLampo VARCHAR(4),
     pilvisyys VARCHAR(32),
     huomiot VARCHAR(300),
     saaliskuva VARCHAR(300),
@@ -46,7 +46,3 @@ CREATE TABLE Pyydystaja(
     kalastaja VARCHAR(32) REFERENCES Kalastaja(kayttajatunnus),
     saalisID INTEGER REFERENCES Saalistieto(saalisID)
 );
-
-
-    
-    
