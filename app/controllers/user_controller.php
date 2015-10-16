@@ -52,7 +52,8 @@ class UserController extends BaseController {
             $user->save();
             Redirect::to('/login', array('msg'=>"Uusi käyttäjätili luotu tunnuksella ".$user->username));
         } else {
-            View::make('user/registration.html', array('attributes'=> $attributes, 'errors'=> $errors));
+            $users = User::all_usernames();
+            View::make('user/registration.html', array('attributes'=> $attributes, 'users'=>$users, 'errors'=> $errors));
         }   
     }
     

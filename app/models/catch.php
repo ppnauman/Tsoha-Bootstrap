@@ -41,10 +41,11 @@ class CatchModel extends BaseModel {
             $query = $pdo_connection->prepare("INSERT INTO saalistieto (pvm, kellonaika,"
                     . " kalalaji, lkm, pituus, paino, vesisto, paikka, tuulenvoimakkuus,"
                     . " tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot,"
-                    . " saaliskuva, pyydys) VALUES(:pvm, :aika, :laji, :lkm, :pituus,"
-                    . " :paino, :vesisto, :paikka, :tuulenVoima, :tuulenSuunta,"
-                    . " :ilmanLampo, :vedenLampo, :pilvisyys, :huomiot, :kuva, :pyydys)"
-                    . " RETURNING saalisid");
+                    . " saaliskuva, pyydys) VALUES(:pvm, NULLIF(:aika,'')::time, :laji, :lkm,"
+                    . " NULLIF(:pituus,'')::numeric, NULLIF(:paino,'')::numeric, :vesisto,"
+                    . " :paikka, :tuulenVoima, :tuulenSuunta,"
+                    . " NULLIF(:ilmanLampo,'')::integer, NULLIF(:vedenLampo,'')::integer, :pilvisyys,"
+                    . " :huomiot, :kuva, NULLIF(:pyydys,'default')::integer) RETURNING saalisid");
 
             $query->execute(array('pvm' => $this->date, 'aika' => $this->time,
                 'laji' => $this->species, 'lkm' => $this->count,
@@ -58,12 +59,20 @@ class CatchModel extends BaseModel {
             $resultRow = $query->fetch();
             $this->catch_id = $resultRow['saalisid'];
             
-            $username = $_SESSION['user'];
-
+            $catchers;
+            $username = array($_SESSION['user']);
+            if(isset($this->friends)){
+                $catchers = array_merge($username, $this->friends);
+            } else {
+                $catchers = $username;
+            }
+            
             $query_2 = $pdo_connection->prepare("INSERT INTO pyydystaja VALUES("
                     . ":kalastaja, :saalisid)");
-            $query_2 -> execute(array('kalastaja' => $username, 'saalisid' => $this->catch_id));
-                   
+            foreach ($catchers as $catcher) {
+                $query_2 -> execute(array('kalastaja' => $catcher, 'saalisid' => $this->catch_id));
+            }
+            
         } catch (PDOException $e) {
             $success = false;
             Kint::dump($e);
@@ -83,22 +92,26 @@ class CatchModel extends BaseModel {
         $success = true;
         $pdo_conn->beginTransaction();
             try {
-                $query = $pdo_conn->prepare("UPDATE saalistieto SET pvm=:date, kellonaika=:time,"
-                        . " kalalaji=:species, lkm=:count, pituus=:length, paino=:weight, vesisto=:water_sys,"
+                $query = $pdo_conn->prepare("UPDATE saalistieto SET pvm=:date, kellonaika=NULLIF(:time,'')::time,"
+                        . " kalalaji=:species, lkm=:count, pituus=NULLIF(:length,'')::numeric,"
+                        . " paino=NULLIF(:weight,'')::numeric, vesisto=:water_sys,"
                         . " paikka=:location, tuulenvoimakkuus=:wind_speed, tuulensuunta=:wind_dir,"
-                        . " ilmanlampo=:air_temp, vedenlampo=:water_temp, pilvisyys=:cloudiness,"
-                        . " huomiot=:notes, saaliskuva=:picture_url, pyydys=:trap_id WHERE saalisid=:catch_id");
+                        . " ilmanlampo=NULLIF(:air_temp,'')::numeric, vedenlampo=NULLIF(:water_temp,'')::numeric,"
+                        . " pilvisyys=:cloudiness, huomiot=:notes, saaliskuva=:picture_url, pyydys=NULLIF(:trap_id,'default')::integer"
+                        . " WHERE saalisid=:catch_id");
                 $query->execute(array('date'=>$this->date, 'time'=>$this->time, 'species'=>$this->species, 
                     'count'=>$this->count, 'length'=>$this->length, 'weight'=>$this->weight, 'water_sys'=>$this->water_sys, 
                     'location'=>$this->location, 'wind_dir'=>$this->wind_dir, 'wind_speed'=>$this->wind_speed, 
                     'air_temp'=>$this->air_temp, 'water_temp'=>$this->water_temp, 'cloudiness'=>$this->cloudiness, 
                     'notes'=>$this->notes, 'picture_url'=>$this->picture_url, 'trap_id'=>$this->trap_id, 'catch_id'=>$this->catch_id));
                 $query_2 = DB::connection()->prepare("INSERT INTO pyydystaja VALUES(:username, :catch_id)");
-
-                foreach($this->friends as $friend) {
-                    $query_2->execute(array('username'=>$friend, 'catch_id'=>$this->catch_id));
+                
+                if(isset($this->friends)){
+                    foreach($this->friends as $friend) {
+                        $query_2->execute(array('username'=>$friend, 'catch_id'=>$this->catch_id));
+                    }
                 }
-
+                
             } catch (PDOException $e) {
                 $success = false;
                 Kint::dump($e);
@@ -115,12 +128,15 @@ class CatchModel extends BaseModel {
         $user = $_SESSION['user'];
        
         $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid,"
-                . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
-                . " tuulenvoimakkuus,ilmanlampo, vedenlampo, pilvisyys, huomiot,"
-                . " saaliskuva, pyydysid, tyyppi, malli, koko, vari FROM kalastaja,"
-                . " saalistieto, pyydys, pyydystaja WHERE saalistieto.saalisid=pyydystaja.saalisid"
-                . " AND kalastaja.kayttajatunnus=pyydystaja.kalastaja AND"
-                . " saalistieto.pyydys=pyydys.pyydysid AND (kalastaja.kayttajatunnus=:user OR (kalastaja.kayttajatunnus=ANY(SELECT DISTINCT kalastaja FROM kalakaveri WHERE kaveri=:usr))) ORDER BY pvm DESC");
+                . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm,"
+                . " pituus, paino, vesisto, paikka, tuulenvoimakkuus, ilmanlampo, vedenlampo,"
+                . " pilvisyys, huomiot, saaliskuva, pyydys.pyydysid, pyydys.tyyppi,"
+                . " pyydys.malli, pyydys.koko, pyydys.vari FROM saalistieto"
+                . " LEFT JOIN pyydys ON saalistieto.pyydys=pyydys.pyydysid"
+                . " INNER JOIN pyydystaja ON pyydystaja.saalisid = saalistieto.saalisid"
+                . " INNER JOIN kalastaja ON kalastaja.kayttajatunnus = pyydystaja.kalastaja"
+                . " WHERE (kalastaja.kayttajatunnus=:user OR (kalastaja.kayttajatunnus="
+                . " ANY(SELECT DISTINCT kalastaja FROM kalakaveri WHERE kaveri=:usr))) ORDER BY pvm DESC");
         $query->execute(array('user'=>$user, 'usr'=>$user));
         $resultRows = $query->fetchAll();
         $catches = array();
@@ -161,10 +177,11 @@ class CatchModel extends BaseModel {
         $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid,"
                 . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
                 . " tuulenvoimakkuus, tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva,"
-                . " pyydysid, tyyppi, malli, koko, vari FROM kalastaja, saalistieto,"
-                . " pyydys, pyydystaja WHERE saalistieto.saalisid=pyydystaja.saalisid AND"
-                . " kalastaja.kayttajatunnus=pyydystaja.kalastaja AND"
-                . " saalistieto.pyydys=pyydys.pyydysid AND saalistieto.saalisid=:saalisid"
+                . " pyydysid, tyyppi, malli, koko, vari FROM saalistieto"
+                . " LEFT JOIN pyydys ON pyydys.pyydysid=saalistieto.pyydys"
+                . " INNER JOIN pyydystaja ON pyydystaja.saalisid = saalistieto.saalisid"
+                . " INNER JOIN kalastaja ON kalastaja.kayttajatunnus = pyydystaja.kalastaja"
+                . " WHERE saalistieto.saalisid=:saalisid"
                 . " LIMIT 1");
 
         $query->execute(array('saalisid' => $id));
@@ -359,7 +376,7 @@ class CatchModel extends BaseModel {
     
     public function validate_picture_url() {
         $errors = array();
-        if(strlen($this->picture_url) > 300) {
+        if(strlen($this->picture_url) > 600) {
             $errors[] = "Saaliskuvan osoite saa olla korkeintaan 300 merkkiä.";
         }
         

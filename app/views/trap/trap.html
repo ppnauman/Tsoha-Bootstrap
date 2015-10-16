@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+{% if(message) %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+{% endif %}
+    <div id="trap-top-button-section">
+        <ul class="list-inline">
+            <li>
+                <form method="post" action="{{base_path}}/trap/{{trap.trap_id}}/destroy">
+                    <button class="btn btn-danger" type="submit">Poista pyydys</button>
+                </form>
+            <li>
+                <form method="get" action="{{base_path}}/trapUpdate/{{trap.trap_id}}">
+                    <button class="btn btn-info" type="submit">Muokkaa pyydyksen tietoja</button>
+                </form>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+        <h2>{{trap.trap_model}} {{trap.trap_size}}</h2>
+        
+        <ul>
+            <li>Pyydyksen tyyppi: {{trap.trap_type}}
+            <li>Omistaja: {{trap.owner}}
+            <li>Väri: {{trap.trap_color}}   
+        </ul>
+        </div>
+        
+        <div class="col-sm-6">
+             <img class="img-responsive img-rounded" src="{{trap.picture_url}}" alt="Pyydyksen kuva puuttuu">
+        </div>
+    </div>
+
+{% endblock %}

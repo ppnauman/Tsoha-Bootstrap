@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h2 class="sub-header">Saalislistaus ({{user_logged_in.first_name}} {{user_logged_in.sure_name}})</h2>
+<h1 class="main-header">Saaliit</h1> <h3>[{{user_logged_in.first_name}} {{user_logged_in.sure_name}}]</h3>
     {% if message %}
         <div class="alert alert-danger">
             {{message}}
@@ -9,8 +9,7 @@
     {% endif %}
     <div>
         <ul class="list-inline">
-            <li><a href="{{base_path}}/newCatch" class="btn btn-primary">Lisää saalistieto</a>
-            <li><a href="{{base_path}}/trapList" class="btn btn-danger">Pyydykset</a>
+            <li><a href="{{base_path}}/newCatch" class="btn btn-success">Lisää saalistieto</a>
         </ul>
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Suodata saalistietoja</span>
@@ -18,40 +17,41 @@
         </div>
     </div>
     <section id="catch_list">
-    <div class="table-responsivge">
-        <table class="table table-striped" id="catch-table">
-            <thead>
-                <tr>
-                    <th>Päiväys</th>
-                    <th>Kalastaja</th>
-                    <th>Vesistö</th>
-                    <th>Paikka</th>
-                    <th>Kalalaji</th>
-                    <th>Lkm</th>
-                    <th>Pituus</th>
-                    <th>Paino</th>
-                    <th>Pyydystyyppi</th>
-                    <th>Lisätiedot</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for catch in catches %}
+        <div class="table-responsivge">
+            <table class="table table-striped" id="catch-table">
+                <thead>
                     <tr>
-                        <td>{{catch.date}}</td>
-                        <td>{{catch.first_name}} {{catch.sure_name}}</td>
-                        <td>{{catch.water_sys}}</td>
-                        <td>{{catch.location}}</td>
-                        <td>{{catch.species}}</td>
-                        <td>{{catch.count}}</td>
-                        <td>{{catch.length}}</td>
-                        <td>{{catch.weight}}</td>
-                        <td>{{catch.trap_type}}</td>
-                        <td><a href="{{base_path}}/catchList/{{catch.catch_id}}" class="btn btn-danger btn-sm" type="button" target="_blank">Näytä saalis</a></td>
+                        <th>Päiväys</th>
+                        <th>Kalastaja</th>
+                        <th>Vesistö</th>
+                        <th>Paikka</th>
+                        <th>Kalalaji</th>
+                        <th>Lkm</th>
+                        <th>Pituus</th>
+                        <th>Paino</th>
+                        <th>Pyydystyyppi</th>
+                        <th>Lisätiedot</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>    
+                </thead>
+                <tbody>
+                    {% for catch in catches %}
+                        <tr>
+                            <td>{{catch.date}}</td>
+                            <td>{{catch.first_name}} {{catch.sure_name}}</td>
+                            <td>{{catch.water_sys}}</td>
+                            <td>{{catch.location}}</td>
+                            <td>{{catch.species}}</td>
+                            <td>{{catch.count}}</td>
+                            <td>{{catch.length}}</td>
+                            <td>{{catch.weight}}</td>
+                            <td>{{catch.trap_type}}</td>
+                            <td><a href="{{base_path}}/catchList/{{catch.catch_id}}" class="btn btn-danger btn-sm" type="button">Näytä saalis</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>    
     </section>
 
 {% endblock %}

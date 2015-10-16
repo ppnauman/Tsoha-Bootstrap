@@ -41,11 +41,14 @@ class CatchController extends BaseController {
             'cloudiness' => $catch->cloudiness,
             'notes' => $catch->notes,
             'picture_url' => $catch->picture_url,
-            'trap_id' => $catch->trap_model,
+            'trap_id' => $catch->trap_id,
+            'trap_type' => $catch->trap_type,
             'friends' => $catchers
         );
+        $traps = Trap::all();
+        $trap_types = Trap::types();
         
-        View::make('catch/updateCatch.html', array('attributes'=>$attributes, 'friend_of'=>$_SESSION['friend_of']));
+        View::make('catch/updateCatch.html', array('attributes'=>$attributes, 'traps' => $traps, 'trap_types'=> $trap_types, 'friend_of'=>$_SESSION['friend_of']));
     }
     
     
@@ -68,6 +71,7 @@ class CatchController extends BaseController {
             'cloudiness' => $params['cloudiness'],
             'notes' => $params['notes'],
             'picture_url' => $params['picture_url'],
+            'trap_type' => $params['trap_type'],
             'trap_id' => $params['trap_model'],
         );
         if(isset($params['friends'])) {
@@ -79,7 +83,7 @@ class CatchController extends BaseController {
         
         if(count($errors) === 0){
             $catch->update();
-            //Redirect::to('/catchList/' . $catch->catch_id ."", array('message'=>"Saalistieto päivitettiin onnistuneesti!"));
+            Redirect::to('/catchList/' . $catch->catch_id ."", array('message'=>"Saalistieto päivitettiin onnistuneesti!"));
         } else {    
             $catchers = CatchModel::catchers($catch->catch_id);
             $catch->friends = $catchers;
@@ -106,6 +110,7 @@ class CatchController extends BaseController {
             'cloudiness' => $params['cloudiness'],
             'notes' => $params['notes'],
             'picture_url' => $params['picture_url'],
+            'trap_type' => $params['trap_type'],
             'trap_id' => $params['trap_model'],       
         );
         

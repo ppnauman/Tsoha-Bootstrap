@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <form class="add-trap-form" method="post" action="{{base_path}}/trap">
+        
+        <h2 class="trap-form-heading">Uusi pyydys</h2>
+        
+        {% if errors %}
+            <div class="errors"> 
+                <div class="alert alert-danger">
+                    <ul>                            
+                        {% for error in errors %}
+                            <li>{{error}}
+                        {% endfor %}                           
+                    </ul>      
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="form-group">
+            <label>Pyydystyyppi*</label>
+            <input list="predefined_types" class="form-control" name="trap_type" autocomplete="off" maxlength="32" required value="{{attributes.trap_type}}">
+            <datalist id="predefined_types">
+                {% for type in trap_types %}
+                    <option>{{type}}</option>
+                {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <label>Pyydysmalli*</label>
+            <input type="text" name="trap_model" class="form-control" maxlength="32" required value='{{attributes.trap_model}}'>
+        </div>
+
+        <div class="form-group">
+            <label>Pyydyksen koko*</label>
+            <input type="text" name="trap_size" class="form-control" maxlength="16" required value="{{attributes.trap_size}}">
+        </div>
+
+        <div class="form-group">
+            <label>Pyydyksen väri*</label>
+            <input type="text" name="trap_color" class="form-control" maxlength="32" required value="{{attributes.trap_color}}">
+        </div>
+        
+        <div class="form-group">
+            <label>Pyydyksen kuva</label>
+            <input type="text" name="picture_url" class="form-control" maxlength="600" value="{{attributes.picture_url}}">
+        </div>
+
+        <div class="form-group">
+            <label>Pyydys käytössä*</label>
+            <select name="in_use" class="form-control" required>
+                <option value="true" {% if attributes.in_use == "true" %} selected {% endif %}>Kyllä
+                <option value="false" {% if attributes.in_use == "false" %} selected {% endif %}>Ei
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Talleta pyydystieto</button>
+        </div>
+    </form>
+
+{% endblock %}

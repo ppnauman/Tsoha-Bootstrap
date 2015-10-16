@@ -64,6 +64,22 @@
       UserController::logout();
   });
   
+  $routes->post('/trap', function() {
+      TrapController::store();
+  });
+  
+  $routes->get('/trap', function() {
+      TrapController::newTrap();
+  });
+  
+  $routes->get('/trap/:id', function($id) {
+      TrapController::show($id);
+  });
+  
+  $routes->get('/trapList', function() {
+    TrapController::trapList();
+  });
+  
   $routes->get('/saalis', function() { 
       HelloWorldController::saalis();
   });

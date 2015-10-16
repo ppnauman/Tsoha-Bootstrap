@@ -3,7 +3,7 @@
            
     <form class="add-catch-form" method="post" {% block action %} action="{{base_path}}/newCatch" {% endblock %}>       
         <section>
-           <h1>{% block title %}Uusi saalistieto{% endblock %}</h1>
+           <h1 class="main-header">{% block title %}Uusi saalistieto{% endblock %}</h1>
         </section>
 
         {% if(errors) %}
@@ -105,26 +105,26 @@
                 <div class="col-sm-3 form-group">
                     <label>Tuulen voimakkuus</label>
                     <select name="wind_speed" class="form-control">
-                        <option>tyyni (< 1 m/s)</option>
-                        <option selected>heikko (1-3 m/s)</option>
-                        <option>kohtalainen (4-7 m/s)</option>
-                        <option>navakka (8-13 m/s)</option>
-                        <option>kova (14-20 m/s)</option>
-                        <option>myrsky (> 20m/s)</option>
+                        <option {% if attributes.wind_speed =="tyyni (< 1 m/s)" %} selected {% endif %}>tyyni (< 1 m/s)</option>
+                        <option {% if attributes.wind_speed =="heikko (1-3 m/s)" %} selected {% endif %}>heikko (1-3 m/s)</option>
+                        <option {% if attributes.wind_speed =="kohtalainen (4-7 m/s)" %} selected {% endif %}>kohtalainen (4-7 m/s)</option>
+                        <option {% if attributes.wind_speed =="navakka (8-13 m/s)" %} selected {% endif %}>navakka (8-13 m/s)</option>
+                        <option {% if attributes.wind_speed =="kova (14-20 m/s)" %} selected {% endif %}>kova (14-20 m/s)</option>
+                        <option {% if attributes.wind_speed =="myrsky (> 20 m/s)" %} selected {% endif %}>myrsky (> 20 m/s)</option>
                     </select>
                 </div>
 
                 <div class="col-sm-3 form-group">
                     <label>Tuulen suunta</label>
                     <select name="wind_dir" class="form-control">
-                        <option>etelä(S)</option>
-                        <option selected>lounas(SW)</option>
-                        <option>länsi(W)</option>
-                        <option>luode(NW)</option>
-                        <option>pohjoinen(N)</option>
-                        <option>koillinen(NE)</option>
-                        <option>itä(E)</option>
-                        <option>kaakko(SE)</option> 
+                        <option {% if attributes.wind_dir =="etelä(S)" %} selected {% endif %}>etelä(S)</option>
+                        <option {% if attributes.wind_dir =="lounas(SW)" %} selected {% endif %}>lounas(SW)</option>
+                        <option {% if attributes.wind_dir =="länsi(W)" %} selected {% endif %}>länsi(W)</option>
+                        <option {% if attributes.wind_dir =="luode(NW)" %} selected {% endif %}>luode(NW)</option>
+                        <option {% if attributes.wind_dir =="pohjoinen(N)" %} selected {% endif %}>pohjoinen(N)</option>
+                        <option {% if attributes.wind_dir =="koillinen(NE)" %} selected {% endif %}>koillinen(NE)</option>
+                        <option {% if attributes.wind_dir =="itä(E)" %} selected {% endif %}>itä(E)</option>
+                        <option {% if attributes.wind_dir =="kaakko(SE)" %} selected {% endif %}>kaakko(SE)</option> 
                     </select>
                 </div>
             </div>
@@ -133,13 +133,13 @@
                 <div class="col-sm-6 form-group">
                     <label>Pilvisyys</label>
                     <select name="cloudiness" class="form-control">
-                        <option>selkeää</option>
-                        <option>melko selkeää, poutaa</option>
-                        <option>puolipilvistä, poutaa</option>
-                        <option>puolipilvistä, sadekuuroja</option>
-                        <option>melko pilvistä, poutaa</option>
-                        <option>melko pilvistä, sadetta</option>
-                        <option>pilvistä, poutaa</option>
+                        <option {% if attributes.cloudiness == 'selkeää' %}selected{% endif %}>selkeää</option>
+                        <option {% if attributes.cloudiness == 'melko selkeää, poutaa' %}selected{% endif %}>melko selkeää, poutaa</option>
+                        <option {% if attributes.cloudiness == 'puolipilvistä, poutaa' %}selected{% endif %}>puolipilvistä, poutaa</option>
+                        <option {% if attributes.cloudiness == 'puolipilvistä, sadekuuroja' %}selected{% endif %}>puolipilvistä, sadekuuroja</option>
+                        <option {% if attributes.cloudiness == 'melko pilvistä, poutaa' %}selected{% endif %}>melko pilvistä, poutaa</option>
+                        <option {% if attributes.cloudiness == 'melko pilvistä, sadetta' %}selected{% endif %}>melko pilvistä, sadetta</option>
+                        <option {% if attributes.cloudiness == 'pilvistä, poutaa' %}selected{% endif %}>pilvistä, poutaa</option>
                         <option {% if attributes.cloudiness == 'pilvistä, sadetta' %}selected{% endif %}>pilvistä, sadetta</option>
                     </select>
                 </div>
@@ -153,21 +153,21 @@
                 <div class="col-sm-12 form-group" id="traptypeGroup">
                     <label>Pyydyksen tyyppi</label>
                     <select  class="form-control" name="trap_type">
-                        <option selected>Valitse pyydyksen tyyppi</option>
+                        <option {% if attributes.trap_type =='default' %}selected{% endif %} value='default'>Valitse pyydyksen tyyppi</option>
                         {% for trap_type in trap_types %}
-                        <option>{{trap_type}}</option>
+                            <option {% if attributes.trap_type == trap_type %} selected {% endif %}>{{trap_type}}</option>
                         {% endfor %}
                     </select>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-sm-12 form-group hidden" id="trapmodelGroup">
+                <div class="col-sm-12 form-group" id="trapmodelGroup">
                     <label>Pyydysmalli</label>
                     <select class="form-control" name="trap_model">
-                        <option value="default" selected>Valitse malli/merkki</option>
+                        <option value="default" {% if attributes.trap_id=='default' %} selected {% endif %} >Valitse malli/merkki</option>
                         {% for trap in traps %}
-                            <option class="trapmodel {{trap.trap_type}}" value="{{trap.trap_id}}">{{trap.trap_model}} {{trap.trap_size}} {{trap.trap_color}}</option>
+                            <option class="trapmodel {{trap.trap_type}}" value='{{trap.trap_id}}' {% if attributes.trap_id == trap.trap_id %}selected{% endif %}>{{trap.trap_model}} {{trap.trap_size}} {{trap.trap_color}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -193,4 +193,8 @@
         </section>
     </form>
     
+{% endblock %}
+
+{% block scripts %}
+    <script src='{{base_path}}/assets/js/catch/updateCatch.js'></script>
 {% endblock %}

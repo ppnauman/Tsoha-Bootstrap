@@ -37,12 +37,20 @@
     }
     
     public function valid_mail($mail_string) {
-        $errors = array();
         $mail_regexp ="/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/";
         if(preg_match($mail_regexp, $mail_string) != 1) {
             return false;
         }
         return true;
+    }
+    
+    public function valid_url($url_str) {
+        
+        if(filter_var( $url_str, FILTER_VALIDATE_URL )){
+            return true;
+        }
+        
+        return false;  
     }
 
   }

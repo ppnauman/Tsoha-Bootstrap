@@ -1,3 +1,15 @@
+h1.main-header {
+    font-size : 2.8em;
+}
+
+h2.main-header {
+    font-size : 2.2em;
+}
+
+h3 {
+    font-size : 1.7em;
+}
+
 img {
     border-color: black;
     border-style: solid;
@@ -11,7 +23,11 @@ img {
 }
 
 #catch_list {
-    padding-top:3em;
+    padding-top : 3em;
+}
+
+#trap_list {
+    padding-top : 0.5em;
 }
 
 .jumbotron{
@@ -23,7 +39,7 @@ img {
   margin: 0px auto;
 }
 
-.login-form, .register-form, .add-catch-form {
+.login-form, .register-form, .add-trap-form {
     margin: auto;
     width: 50%;
     padding: 10px;
@@ -31,7 +47,7 @@ img {
 
 .add-catch-form {
     margin: auto;
-    width: 75%;
+    width: 85%;
     padding: 10px;
 }
 
