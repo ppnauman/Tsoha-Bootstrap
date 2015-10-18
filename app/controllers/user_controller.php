@@ -99,9 +99,17 @@ class UserController extends BaseController {
         }
         
         $user = new User($attributes);
-        $user->update();
-        Redirect::to('/catchList', array('message'=>"Käyttäjätiedot päivitetty!"));
+        $errors = $user->errors();
         
+        if(count($errors) === 1) {
+            $user->update();
+            Redirect::to('/catchList', array('message'=>"Käyttäjätiedot päivitetty!"));
+        } else {
+            unset($errors[0]);
+            $users = User::all_usernames();
+            View::make('user/updateUser.html', array('errors'=>$errors, 'attributes'=>$attributes, 'users'=>$users));
+        }
+           
     }
 }
 
