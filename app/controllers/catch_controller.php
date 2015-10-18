@@ -16,7 +16,7 @@ class CatchController extends BaseController {
     
     public static function newCatch() {
         self::check_logged_in();
-        $traps = Trap::all();
+        $traps = Trap::in_use();
         $trap_types = Trap::types();
        
         View::make('catch/newCatch.html', array('traps'=>$traps, 'trap_types'=>$trap_types, 'friend_of'=>$_SESSION['friend_of']));
@@ -131,7 +131,7 @@ class CatchController extends BaseController {
             //Kint::dump($catch->catch_id);
             Redirect::to("/catchList/" . $catch->catch_id ."", array('message' => 'Saalistieto lisättiin onnistuneesti!'));    
         } else {
-            $traps = Trap::all();
+            $traps = Trap::in_use();
             $trap_types = Trap::types();
             View::make('catch/newCatch.html', array('errors'=>$errors, 'attributes'=>$attributes, 'traps'=> $traps, 'trap_types'=>$trap_types, 'friend_of'=>$_SESSION['friend_of']));
         }

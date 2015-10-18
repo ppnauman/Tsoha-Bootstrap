@@ -50,15 +50,17 @@
         <label>Kalakaverit</label>
         <select multiple class="form-control" name="friends[]">
             {% for username in users %}
-                <option {% if username in attributes.friends %} selected {% endif %}>{{username}}</option>
+            <option {% if username in attributes.friends %} selected {% endif %}>{{username}}</option>
             {% endfor %}
+
         </select>
+        <p class="text-muted">Huom! Kalakavereiksi asetetuilla käyttäjillä on oikeus nähdä saalistietosi ja lisätä yhteisiä saaliita.</p>
         </div>
         
         <div class="form-group">
-        {% block submit_button %}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Rekisteröidy</button>  
-        {% endblock %}
+            {% block submit_button %}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Rekisteröidy</button>  
+            {% endblock %}
         </div>
     </form>
 

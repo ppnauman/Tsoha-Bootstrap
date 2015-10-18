@@ -34,6 +34,30 @@ class Trap extends BaseModel {
     }
     
     
+    public static function in_use() {
+        $query = DB::connection()->prepare("SELECT * FROM pyydys WHERE omistaja = :user AND "
+                . "kaytossa=TRUE ORDER BY tyyppi ASC, malli ASC, koko ASC, vari ASC");
+        $query->execute(array('user'=>$_SESSION['user']));
+        $resultRows = $query->fetchAll();
+        $traps = array();
+        
+        foreach($resultRows as $row) {
+            $traps[] = new Trap(array(
+                'trap_id'=>$row['pyydysid'],
+                'owner'=>$row['omistaja'],
+                'trap_type'=>$row['tyyppi'],
+                'trap_model'=>$row['malli'],
+                'trap_size'=>$row['koko'],
+                'trap_color'=>$row['vari'],
+                'picture_url'=>$row['pyydyskuva'],
+                'in_use'=>$row['kaytossa'],
+            ));
+        }
+        
+        return $traps;
+    }
+    
+    
     public static function find($trap_id) {
         $query = DB::connection()->prepare("SELECT * from pyydys WHERE pyydysid=:id LIMIT 1");
         $query->execute(array('id'=>$trap_id));
