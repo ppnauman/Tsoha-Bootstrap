@@ -3,18 +3,19 @@
 class CatchController extends BaseController {
     
     public static function index() {
+        self::check_logged_in();
         $catches = CatchModel::all();
-        //Kint::trace();
-        //Kint::dump($catches);
         View::make('catch/catchList.html', array('catches'=>$catches));
     }
     
     public static function show($id) {
+        self::check_logged_in();
         $catch = CatchModel::find($id);
         View::make('catch/catch.html', array('catch'=>$catch));
     }
     
     public static function newCatch() {
+        self::check_logged_in();
         $traps = Trap::all();
         $trap_types = Trap::types();
        
@@ -22,6 +23,7 @@ class CatchController extends BaseController {
     }
     
     public static function viewUpdate($id) {
+        self::check_logged_in();
         $catchers = CatchModel::catchers($id);
         $catch = CatchModel::find($id);
         $attributes = array(
@@ -53,6 +55,7 @@ class CatchController extends BaseController {
     
     
     public static function update($id) {
+        self::check_logged_in();
         $params = $_POST;
         $attributes = array(
             'catch_id' => $id,
@@ -93,6 +96,7 @@ class CatchController extends BaseController {
     
     
     public static function store() {
+        self::check_logged_in();
         $params = $_POST;
         $attributes = array(
             'date' => $params['date'],
@@ -135,6 +139,7 @@ class CatchController extends BaseController {
     
     
     public static function destroy($id) {
+        self::check_logged_in();
         $catch = new CatchModel(array('catch_id'=>$id));
         $catch->destroy();
         

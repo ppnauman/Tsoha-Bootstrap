@@ -75,8 +75,8 @@ class CatchModel extends BaseModel {
             
         } catch (PDOException $e) {
             $success = false;
-            Kint::dump($e);
-            Kint::trace();
+            //Kint::dump($e);
+            //Kint::trace();
         }
         //end of transaction
         if (!$success) {
@@ -114,7 +114,7 @@ class CatchModel extends BaseModel {
                 
             } catch (PDOException $e) {
                 $success = false;
-                Kint::dump($e);
+                //Kint::dump($e);
             }
         
         if(!$success){

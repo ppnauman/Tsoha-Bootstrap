@@ -1,0 +1,9 @@
+{% extends 'trap/newTrap.html' %}
+
+    {% block form_init %}
+    
+        <form class="update-trap-form" method="post" action="{{base_path}}/trapUpdate/{{attributes.trap_id}}">
+            <h2 class="main-header">Muokkaa pyydyksen tietoja</h2>
+            
+    {% endblock %}
+

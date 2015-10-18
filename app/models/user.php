@@ -47,6 +47,22 @@ class User extends BaseModel {
         return $friend_of;
     }
     
+    
+    public static function friends($usr) {
+        $query = DB::connection()->prepare("SELECT DISTINCT kaveri FROM kalakaveri WHERE kalastaja=:usr");
+        $query->execute(array('usr'=>$usr));
+        
+        $resultRows = $query->fetchAll();
+        $friends = array();
+        
+        foreach($resultRows as $row) {
+            $friends[] = $row['kaveri'];
+        }
+        
+        return $friends;
+    }
+    
+    
     public static function find($usr) {
         $query = DB::connection()->prepare("SELECT * FROM kalastaja WHERE"
                 . " kayttajatunnus = :usr LIMIT 1");
@@ -99,6 +115,35 @@ class User extends BaseModel {
         $query = DB::connection()->prepare("INSERT INTO kalakaveri VALUES(:username, :friend_name)");
         foreach($this->friends as $friend) {
             $query->execute(array('username'=>$this->username, 'friend_name'=>$friend));
+        }
+    }
+    
+    
+    public function update() {
+        $pdo_conn = DB::connection();
+        $success = true;
+        $pdo_conn->beginTransaction();
+        
+        try{
+            $query = $pdo_conn->prepare("DELETE FROM kalakaveri WHERE kalastaja = :usr");
+            $query->execute(array('usr'=>$this->username));
+            
+            $this->save_friends();
+            
+            $query_2 = $pdo_conn->prepare("UPDATE kalastaja SET etunimi=:first_name, sukunimi=:sure_name,"
+                    . "email=:email, salasana=:password WHERE kayttajatunnus=:username");
+            $query_2->execute(array('first_name'=>$this->first_name, 'sure_name'=>$this->sure_name,
+                'email'=>$this->email, 'password'=>$this->password, 'username'=>$this->username));
+        
+            
+        } catch (PDOException $e) {
+            $success = false;
+        }
+        
+        if($success) {
+            $pdo_conn->commit();
+        } else {
+            $pdo_conn->rollBack();
         }
     }
     

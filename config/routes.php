@@ -1,19 +1,7 @@
 <?php
 
-  $routes->get('/', function() {
-    HelloWorldController::index();
-  });
-
   $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
-  });
-  
-  $routes->get('/kirjautuminen', function() {
-      HelloWorldController::kirjautuminen();
-  });
-  
-  $routes->get('/rekisteroityminen', function() {
-      HelloWorldController::rekisteroityminen();
   });
   
   $routes->get('/registration', function() {
@@ -76,14 +64,32 @@
       TrapController::show($id);
   });
   
+  $routes->post('/trap/:id/destroy', function($id) {
+      TrapController::destroy($id);
+  });
+  
   $routes->get('/trapList', function() {
     TrapController::trapList();
   });
   
-  $routes->get('/saalis', function() { 
-      HelloWorldController::saalis();
+  $routes->get('/trapUpdate/:id', function($id) {
+      TrapController::viewUpdate($id);
+  });
+  
+  $routes->post('/trapUpdate/:id', function($id) {
+      TrapController::update($id);
+  });
+  
+  $routes->get('/userUpdate', function() {
+      UserController::viewUpdate();
+  });
+  
+  $routes->post('/userUpdate', function() {
+      UserController::update();
+  });
+  
+  $routes->get('/', function() {
+      UserController::login();
   });
 
-  $routes->get('/lisaaSaalis', function() {
-      HelloWorldController::lisaaSaalis();
-  });
+

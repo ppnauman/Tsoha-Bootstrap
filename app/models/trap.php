@@ -30,8 +30,6 @@ class Trap extends BaseModel {
             ));
         }
         
-        
-        Kint::dump($traps);
         return $traps;
     }
     
@@ -69,13 +67,21 @@ class Trap extends BaseModel {
             $this->trap_id = $resultRow['pyydysid'];
         
         } catch (PDOException $e) {
-            Kint::dump($e);
+            //Kint::dump($e);
         }
-    }    
+    } 
     
     
-    public function types() {
-        $query = DB::connection()->prepare("SELECT DISTINCT tyyppi FROM pyydys WHERE omistaja=:user");
+    public function update() {
+        $query = DB::connection()->prepare("UPDATE pyydys SET tyyppi=:type, malli=:model, koko=:size,"
+                . "vari=:color, pyydyskuva=:picture_url, kaytossa=:in_use WHERE pyydysid=:id");
+        $query->execute(array('type'=>$this->trap_type, 'model'=>$this->trap_model, 'size'=>$this->trap_size,
+            'color'=>$this->trap_color, 'picture_url'=>$this->picture_url, 'in_use'=>$this->in_use, 'id'=>$this->trap_id));   
+    }
+    
+    
+    public static function types() {
+        $query = DB::connection()->prepare("SELECT DISTINCT tyyppi FROM pyydys WHERE omistaja=:user ORDER BY tyyppi ASC");
         $query->execute(array('user'=>$_SESSION['user']));
         $resultRows = $query->fetchAll();
         
@@ -89,7 +95,20 @@ class Trap extends BaseModel {
     }
     
     
-    
+    public function destroy() {
+        $query = DB::connection()->prepare("SELECT pyydys FROM saalistieto WHERE pyydys=:id LIMIT 1");
+        $query->execute(array('id'=>$this->trap_id));
+        $resultRow = $query->fetch();
+        
+        if($resultRow) {
+            return false;
+        }
+        
+        $query_2 = DB::connection()->prepare("DELETE from pyydys WHERE pyydysid=:id");
+        $query_2->execute(array('id'=>$this->trap_id));
+        
+        return true;
+    }
     
     //user input validators
     public function  validate_trap_type() {

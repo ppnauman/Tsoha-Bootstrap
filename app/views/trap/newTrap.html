@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-
+    {% block form_init %}
     <form class="add-trap-form" method="post" action="{{base_path}}/trap">
-        
-        <h2 class="trap-form-heading">Uusi pyydys</h2>
-        
+     
+        <h2 class="main-header">Uusi pyydys</h2>
+    {% endblock %}      
         {% if errors %}
             <div class="errors"> 
                 <div class="alert alert-danger">
@@ -50,8 +50,8 @@
         <div class="form-group">
             <label>Pyydys käytössä*</label>
             <select name="in_use" class="form-control" required>
-                <option value="true" {% if attributes.in_use == "true" %} selected {% endif %}>Kyllä
-                <option value="false" {% if attributes.in_use == "false" %} selected {% endif %}>Ei
+                <option value="1" {% if attributes.in_use == 1 %} selected {% endif %}>Kyllä
+                <option value="0" {% if attributes.in_use == 0 %} selected {% endif %}>Ei
             </select>
         </div>
 

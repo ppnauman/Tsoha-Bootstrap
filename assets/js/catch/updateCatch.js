@@ -1,4 +1,11 @@
 //modify content of trap_type and trap_model <SELECT>s 
+function showTrapModels(trapType){
+    $("select[name='trap_model']").val('default');
+    $("option.trapmodel").hide();
+    $("option."+trapType+"").show();   
+};
+
+
 $(document).ready(function(){
   //hide trapmodels of unselected type (when updating catch) 
   $("option.trapmodel").each(function () {
@@ -12,10 +19,3 @@ $(document).ready(function(){
   });
   
 });
-
-function showTrapModels(trapType){
-    $("select[name='trap_model']").val('default');
-    $("option.trapmodel").hide();
-    $("option."+trapType+"").show();   
-};
-

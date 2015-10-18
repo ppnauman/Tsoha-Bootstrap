@@ -10,13 +10,21 @@ h3 {
     font-size : 1.7em;
 }
 
+.navbar-nav {
+    font-size : 1.2em;
+}
+
+.navbar-brand {
+    font-size : 1.6em;
+}
+
 img {
     border-color: black;
     border-style: solid;
     border-width: 1px;
 }
 
-#main-container{
+#main-container {
   max-width: 1200px;
   padding: 10px 25px;
   margin: 0px auto;
@@ -30,16 +38,16 @@ img {
     padding-top : 0.5em;
 }
 
-.jumbotron{
+.jumbotron {
     background-color: #B6B8FC;
 }
 
-.navbar .container-fluid{
+.navbar .container-fluid {
   max-width: 1200px;
   margin: 0px auto;
 }
 
-.login-form, .register-form, .add-trap-form {
+.login-form, .register-form, .add-trap-form, .update-trap-form {
     margin: auto;
     width: 50%;
     padding: 10px;
@@ -55,12 +63,32 @@ img {
     text-align:center;
 }
 
-.hidden{
+.hidden {
     display:none;
 }
 
-.jumbotron{
+.jumbotron {
     border-radius: 25px;
+}
+
+tr.italic > td{
+    font-style: italic;
+}
+
+td.trap-model-cell {
+    width : 32%;
+}
+
+td.trap-color-cell {
+    width : 32%;
+}
+
+td.trap-size-cell {
+    width : 18%;
+}
+
+td.view-button-cell {
+    width : 18%;
 }
 
 section.fieldset {

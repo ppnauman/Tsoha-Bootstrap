@@ -2,11 +2,7 @@
 
 Yleisiä linkkejä
 
-* [Kirjautuminen/rekisteröityminen(toimii ja ohjaa listaukseen/lisäykseen)](https://ppnauman.users.cs.helsinki.fi/fishingLog/login)
-* [Saaliiden listaussivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList)
-* [Saaliin esittelysivu id#1](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/1)
-* [Saaliin esittelysivu id#2](https://ppnauman.users.cs.helsinki.fi/fishingLog/catchList/2)
-* [Saaliin lisäyssivu](https://ppnauman.users.cs.helsinki.fi/fishingLog/newCatch)
+* [Kirjautuminen/etusivu](https://ppnauman.users.cs.helsinki.fi/fishingLog)
 
 
 Dokumentaatio

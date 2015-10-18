@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1 class="main-header">Pyydykset</h1>
-<h3>[{{user_logged_in.first_name}} {{user_logged_in.sure_name}}]</h3>
+    <h1 class="main-header">Pyydykset</h1>
+    <h3>[{{user_logged_in.first_name}} {{user_logged_in.sure_name}}]</h3>
     
     {% if message %}
+    
         <div class="alert alert-danger">
             {{message}}
         </div>
+
     {% endif %}
     
     <div>
@@ -20,44 +22,46 @@
     <section id="trap_list">
         <div class="table-responsivge">
             <h3>{{traps[0].trap_type}}</h3>
-            <table class="table table-striped">
-                
+            <table class="table table-striped">         
                 <thead>
                     <tr>
-                        <th>Pyydysmalli
+                        <th>Malli/merkki
                         <th>Koko
                         <th>Väri                  
                     </tr>
                 </thead>
                 <tbody>
-            {% set type = traps[0].trap_type %}
-            {% for trap in traps %}
-                {% if trap.trap_type != type %}
-                </tbody>
-            </table>
-                <h3>{{trap.trap_type}}</h3>
-                <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Pyydysmalli
-                        <th>Koko
-                        <th>Väri                  
+                {% set type = traps[0].trap_type %}
+                
+                {% for trap in traps %}
+                    {% if trap.trap_type != type %}
+                        </tbody>
+                        </table>
+
+                        <h3>{{trap.trap_type}}</h3>
+                        <table class="table table-striped">
+                            <thead> 
+                                <tr>
+                                    <th>Malli/merkki
+                                    <th>Koko
+                                    <th>Väri                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                        {% set type = trap.trap_type %}
+                    {% endif %}
+                
+                    <tr {% if trap.in_use == 0 %} class='italic'{% endif %}>
+                        <td class="trap-model-cell">{{trap.trap_model}}
+                        <td class="trap-size-cell">{{trap.trap_size}}
+                        <td class="trap-color-cell">{{trap.trap_color}}
+                        <td class="view-button-cell"><a href="{{base_path}}/trap/{{trap.trap_id}}" class="btn btn-danger btn-sm" type="button">Näytä pyydys</a>
                     </tr>
-                </thead>
-                <tbody>
                 
-                    {% set type = trap.trap_type %}
-                {% endif %}
-                <tr>
-                    <td>{{trap.trap_model}}
-                    <td>{{trap.trap_size}}
-                    <td>{{trap.trap_color}}
-                    <td><a href="{{base_path}}/trap/{{trap.trap_id}}" class="btn btn-danger btn-sm" type="button">Näytä pyydys</a>
-                </tr>
-            {% endfor %}
+                {% endfor %}
+                
                 </tbody>
-                </table>
-                
+            </table>                
         </div>    
     </section>
 

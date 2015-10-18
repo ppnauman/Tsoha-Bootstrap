@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-
+{% block form_init %}
     <form class="register-form" method="post" action="{{base_path}}/registration">
+{% endblock %}
         <h2 class="register-form-heading">Rekisteröidy käyttäjäksi</h2>
         {% if errors %}
                 <div class="errors"> 
@@ -17,7 +18,7 @@
         
         <div class="form-group">
         <label>Kayttäjätunnus</label>
-        <input type="text" name="username" class="form-control" required autofocus value='{{attributes.username}}'>
+        <input type="text" name="username" class="form-control" {% block username %}autofocus{% endblock %} required value='{{attributes.username}}'>
         </div>
         
         <div class="form-group">
@@ -32,7 +33,7 @@
         
         <div class="form-group">
         <label>Salasana</label>
-        <input type="password" name="password" class="form-control" required>
+        <input type="password" name="password" class="form-control" required value="{{attributes.password}}">
         </div>
         
         <div class="form-group">
@@ -49,13 +50,15 @@
         <label>Kalakaverit</label>
         <select multiple class="form-control" name="friends[]">
             {% for username in users %}
-                <option>{{username}}</option>
+                <option {% if username in attributes.friends %} selected {% endif %}>{{username}}</option>
             {% endfor %}
         </select>
         </div>
         
         <div class="form-group">
+        {% block submit_button %}
         <button class="btn btn-lg btn-primary btn-block" type="submit">Rekisteröidy</button>  
+        {% endblock %}
         </div>
     </form>
 
