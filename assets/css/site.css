@@ -75,6 +75,10 @@ tr.italic > td{
     font-style: italic;
 }
 
+p.italic {
+    font-style : italic;
+}
+
 td.trap-model-cell {
     width : 32%;
 }
