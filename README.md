@@ -8,8 +8,8 @@ Testikäyttöön soveltuu mm.käyttäjätunnus: urkki salasana: salasana
 
 Dokumentaatio
 
-* [Linkki dokumentaatioon](https://github.com/ppnauman/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
-
+* [Linkki dokumentaation osaan 1](https://github.com/ppnauman/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
+* [Linkki dokumentaation osaan 2](https://githu.com/ppnauman/Tsoha-Bootstrap/blob/master/doc/dokumentaatio_osa2.pdf)
 ## Työn aihe
 
 ### Kalamiehen saalispäiväkirja 
