@@ -4,6 +4,7 @@ Yleisiä linkkejä
 
 * [Kirjautuminen/etusivu](https://ppnauman.users.cs.helsinki.fi/fishingLog)
 
+Testikäyttöön soveltuu mm.käyttäjätunnus: urkki salasana: salasana
 
 Dokumentaatio
 
