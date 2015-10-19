@@ -9,11 +9,11 @@
         <ul class="list-inline">
             <li>
                 <form method="post" action="{{base_path}}/catch/{{catch.catch_id}}/destroy">
-                    <button class="btn btn-danger" type="submit">Poista saalistieto</button>
+                    <button class="btn btn-danger" type="submit" {% if catch.username != user %}disabled{% endif %}>Poista saalistieto</button>
                 </form>
             <li>
                 <form method="get" action="{{base_path}}/catchUpdate/{{catch.catch_id}}">
-                    <button class="btn btn-info" type="submit">Muokkaa saalistietoa</button>
+                    <button class="btn btn-info" type="submit" {% if catch.username != user %}disabled{% endif %}>Muokkaa saalistietoa</button>
                 </form>
         </ul>
     </div>

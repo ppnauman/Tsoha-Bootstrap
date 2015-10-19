@@ -1,7 +1,7 @@
 <?php
 
 class CatchModel extends BaseModel {
-    public $first_name, $sure_name, $catch_id, $date, $time, $species, $count,
+    public $username, $first_name, $sure_name, $catch_id, $date, $time, $species, $count,
             $length, $weight, $water_sys, $location, $wind_speed, $wind_dir, $air_temp,
             $water_temp, $cloudiness, $notes, $picture_url, $trap_id, $trap_type,
             $trap_model, $trap_size, $trap_color, $friends, $validators;
@@ -174,7 +174,7 @@ class CatchModel extends BaseModel {
     
     public static function find($id) {
         
-        $query = DB::connection()->prepare("SELECT etunimi, sukunimi, saalistieto.saalisid,"
+        $query = DB::connection()->prepare("SELECT kayttajatunnus, etunimi, sukunimi, saalistieto.saalisid,"
                 . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
                 . " tuulenvoimakkuus, tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva,"
                 . " pyydysid, tyyppi, malli, koko, vari FROM saalistieto"
@@ -189,6 +189,7 @@ class CatchModel extends BaseModel {
         
         if($resultRow) {
             $catch = new CatchModel(array(
+                'username'=>$resultRow['kayttajatunnus'],
                 'first_name'=>$resultRow['etunimi'],
                 'sure_name'=>$resultRow['sukunimi'],
                 'catch_id'=>$resultRow['saalisid'],

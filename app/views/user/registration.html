@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-{% block form_init %}
+   {% block form_init %}
     <form class="register-form" method="post" action="{{base_path}}/registration">
-{% endblock %}
+
         <h2 class="register-form-heading">Rekisteröidy käyttäjäksi</h2>
+   {% endblock %}     
         {% if errors %}
                 <div class="errors"> 
                         <div class="alert alert-danger">

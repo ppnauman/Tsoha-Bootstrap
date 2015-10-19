@@ -11,7 +11,7 @@ class CatchController extends BaseController {
     public static function show($id) {
         self::check_logged_in();
         $catch = CatchModel::find($id);
-        View::make('catch/catch.html', array('catch'=>$catch));
+        View::make('catch/catch.html', array('catch'=>$catch, 'user'=>$_SESSION['user']));
     }
     
     public static function newCatch() {
