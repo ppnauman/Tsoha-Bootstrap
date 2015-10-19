@@ -125,7 +125,7 @@ class CatchController extends BaseController {
         //Kint::dump($attributes);
         $catch = new CatchModel($attributes);
         $errors = $catch->errors();
-        
+        //Kint::dump($errors);
         if (count($errors) === 0) {
             $catch->save();
             //Kint::dump($catch->catch_id);

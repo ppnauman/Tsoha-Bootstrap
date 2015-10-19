@@ -75,8 +75,8 @@ class CatchModel extends BaseModel {
             
         } catch (PDOException $e) {
             $success = false;
-            //Kint::dump($e);
-            //Kint::trace();
+            Kint::dump($e);
+            Kint::trace();
         }
         //end of transaction
         if (!$success) {
@@ -303,7 +303,7 @@ class CatchModel extends BaseModel {
     public function validate_length() {
         $errors = array();
         if(!is_numeric($this->length) && !($this->length=="")) {
-            $errors[] = "Saaliin pituus - kentän syötteen tulee olla lukuarvo!";
+            $errors[] = "Saaliin pituus - kentän syötteen tulee olla lukuarvo (desimaalierottimena '.')!";
         }
         if($this->length == '0') {
             $errors[] = "Saaliin pituus - kentän syöte ei saa olla nolla";
@@ -315,7 +315,7 @@ class CatchModel extends BaseModel {
     public function validate_weight() {
         $errors = array();
         if(!is_numeric($this->weight) && !($this->weight=="")) {
-            $errors[] = "Saaliin paino -kentän syötteen tulee olla lukuarvo!";
+            $errors[] = "Saaliin paino -kentän syötteen tulee olla lukuarvo (desimaalierottimena '.')!";
         }
         if($this->weight == '0') {
            $errors[] = "Saaliin paino -kentän syöte ei saa olla nolla.";
@@ -366,8 +366,8 @@ class CatchModel extends BaseModel {
     
     public function validate_notes() {
         $errors = array();
-        if(strlen($this->notes) > 300) {
-            $errors[] = "Lisätiedot -kentän syöte saa olla korkeintaan 300 merkkiä.";
+        if(strlen($this->notes) > 600) {
+            $errors[] = "Lisätiedot -kentän syöte saa olla korkeintaan 600 merkkiä.";
         }
         
         return $errors;
@@ -377,7 +377,7 @@ class CatchModel extends BaseModel {
     public function validate_picture_url() {
         $errors = array();
         if(strlen($this->picture_url) > 600) {
-            $errors[] = "Saaliskuvan osoite saa olla korkeintaan 300 merkkiä.";
+            $errors[] = "Saaliskuvan osoite saa olla korkeintaan 600 merkkiä.";
         }
         
         return $errors;
