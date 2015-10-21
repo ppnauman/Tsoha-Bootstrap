@@ -1,8 +1,7 @@
 {% extends "/catch/newCatch.html" %}
 
-    {% block action %} action="{{base_path}}/catchUpdate/{{attributes.catch_id}}" {% endblock %} 
+    {% block action %} action="{{base_path}}/catchUpd/{{attributes.catch_id}}" {% endblock %} 
     {% block title %}Muokkaa saalistietoa{% endblock %}
     {% block checkbox %}
-    <input type="checkbox" name="friends[]" value="{{name}}"
-           {% if name in attributes.friends %} checked disabled{% endif %}/>{{name}}</br> 
+    <input type="checkbox" name="friends[]" value="{{name}}"{% if name in attributes.friends %} checked disabled{% endif %}/>{{name}}</br> 
     {% endblock %}

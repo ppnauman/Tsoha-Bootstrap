@@ -4,6 +4,10 @@
     HelloWorldController::sandbox();
   });
   
+  $routes->get('/', function() {
+      UserController::login();
+  });
+  
   $routes->get('/registration', function() {
       UserController::registration();
   });
@@ -40,7 +44,7 @@
       CatchController::viewUpdate($id);
   });
   
-  $routes->post('/catchUpdate/:id', function($id) {
+  $routes->post('/catchUpd/:id', function($id) {
       CatchController::update($id);
   });
   
@@ -88,8 +92,6 @@
       UserController::update();
   });
   
-  $routes->get('/', function() {
-      UserController::login();
-  });
+
 
 

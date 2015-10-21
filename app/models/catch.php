@@ -89,8 +89,7 @@ class CatchModel extends BaseModel {
     
     public function update() {
         $pdo_conn = DB::connection(); 
-        $success = true;
-        $pdo_conn->beginTransaction();
+        
             try {
                 $query = $pdo_conn->prepare("UPDATE saalistieto SET pvm=:date, kellonaika=NULLIF(:time,'')::time,"
                         . " kalalaji=:species, lkm=:count, pituus=NULLIF(:length,'')::numeric,"
@@ -104,25 +103,15 @@ class CatchModel extends BaseModel {
                     'location'=>$this->location, 'wind_dir'=>$this->wind_dir, 'wind_speed'=>$this->wind_speed, 
                     'air_temp'=>$this->air_temp, 'water_temp'=>$this->water_temp, 'cloudiness'=>$this->cloudiness, 
                     'notes'=>$this->notes, 'picture_url'=>$this->picture_url, 'trap_id'=>$this->trap_id, 'catch_id'=>$this->catch_id));
-                $query_2 = DB::connection()->prepare("INSERT INTO pyydystaja VALUES(:username, :catch_id)");
                 
-                if(isset($this->friends)){
-                    foreach($this->friends as $friend) {
-                        $query_2->execute(array('username'=>$friend, 'catch_id'=>$this->catch_id));
-                    }
-                }
                 
             } catch (PDOException $e) {
-                $success = false;
-                //Kint::dump($e);
+                
             }
         
-        if(!$success){
-            $pdo_conn->rollBack();
-        } else {
-            $pdo_conn->commit();
-        }
     }
+    
+ 
 
     public static function all() {
         $user = $_SESSION['user'];
@@ -174,18 +163,42 @@ class CatchModel extends BaseModel {
     
     public static function find($id) {
         
-        $query = DB::connection()->prepare("SELECT kayttajatunnus, etunimi, sukunimi, saalistieto.saalisid,"
+        $query = DB::connection()->prepare("SELECT 1 FROM pyydystaja WHERE kalastaja=:usr AND saalisid=:id LIMIT 1");
+        $query->execute(array('usr'=>$_SESSION['user'], 'id'=>$id));
+        $row = $query->fetch();
+        $resultRow=0;
+        
+        if($row) {
+        
+            $query = DB::connection()->prepare("SELECT kayttajatunnus, etunimi, sukunimi, saalistieto.saalisid,"
+                    . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
+                    . " tuulenvoimakkuus, tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva,"
+                    . " pyydysid, tyyppi, malli, koko, vari FROM saalistieto"
+                    . " LEFT JOIN pyydys ON pyydys.pyydysid=saalistieto.pyydys"
+                    . " INNER JOIN pyydystaja ON pyydystaja.saalisid = saalistieto.saalisid AND pyydystaja.kalastaja=:user"
+                    . " INNER JOIN kalastaja ON kalastaja.kayttajatunnus = pyydystaja.kalastaja"
+                    . " WHERE saalistieto.saalisid=:saalisid" 
+                    . " LIMIT 1");
+
+            $query->execute(array('user'=>$_SESSION['user'], 'saalisid'=>$id));
+            $resultRow = $query->fetch();
+        
+        
+        }else{
+             $query = DB::connection()->prepare("SELECT kayttajatunnus, etunimi, sukunimi, saalistieto.saalisid,"
                 . " pvm, to_char(kellonaika,'HH24:MI') as kellonaika, kalalaji, lkm, pituus, paino, vesisto, paikka,"
                 . " tuulenvoimakkuus, tuulensuunta, ilmanlampo, vedenlampo, pilvisyys, huomiot, saaliskuva,"
                 . " pyydysid, tyyppi, malli, koko, vari FROM saalistieto"
                 . " LEFT JOIN pyydys ON pyydys.pyydysid=saalistieto.pyydys"
                 . " INNER JOIN pyydystaja ON pyydystaja.saalisid = saalistieto.saalisid"
                 . " INNER JOIN kalastaja ON kalastaja.kayttajatunnus = pyydystaja.kalastaja"
-                . " WHERE saalistieto.saalisid=:saalisid"
+                . " WHERE saalistieto.saalisid=:saalisid" 
                 . " LIMIT 1");
 
-        $query->execute(array('saalisid' => $id));
-        $resultRow = $query->fetch();
+            $query->execute(array('saalisid'=>$id));
+            $resultRow = $query->fetch();
+        }
+        
         
         if($resultRow) {
             $catch = new CatchModel(array(

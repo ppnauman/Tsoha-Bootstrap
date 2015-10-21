@@ -86,7 +86,7 @@ class CatchController extends BaseController {
         
         if(count($errors) === 0){
             $catch->update();
-            Redirect::to('/catchList/' . $catch->catch_id ."", array('message'=>"Saalistieto päivitettiin onnistuneesti!"));
+            Redirect::to('/catchList/' . $catch->catch_id . '', array('message'=>"Saalistieto päivitettiin onnistuneesti!"));
         } else {    
             $catchers = CatchModel::catchers($catch->catch_id);
             $catch->friends = $catchers;
